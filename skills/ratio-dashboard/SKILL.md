@@ -1,43 +1,60 @@
----
-name: ratio-dashboard
-description: Build or review a two-year ratio dashboard and DuPont analysis from 10-K line items the user supplies. Use for financial statement analysis (Lab 2 style). Never supplies, estimates, or invents a number.
----
-
 # Ratio Dashboard + DuPont
 
 This skill turns a company's financial statements into a two-year ratio dashboard and a DuPont
 analysis the user can defend line by line. It works in any AI chat. It has two modes:
 
-- **Build mode:** the user gives you their raw line items (Tab A). You give back the dashboard and DuPont
-  as spreadsheet formulas, then help interpret them.
+- **Build mode:** the user gives you the company's 10-K. You pull the line items into Tab A, each with
+  its source, then give back the dashboard and DuPont as spreadsheet formulas and help interpret them.
 - **Review mode:** the user gives you a dashboard they already built. You audit every ratio against
   the rules below and list what to fix.
 
 If the user does not say which mode, ask.
 
-## Rule 1: You are not a data source, and you are not the calculator
+## Rule 1: The 10-K is the only source
 
-- Every number must come from the user's own Tab A, taken from the 10-K, with a source reference.
-  Never fill a missing line item from memory, the web, or an estimate. Write `OPEN` and ask for it.
-- Give ratios as **Excel formulas that reference the user's Tab A cells**. The user's spreadsheet
-  computes the numbers. If you show a value to sanity-check a formula, label it `CHECK` and say
-  the spreadsheet is the authority.
-- Never type a number into a formula. Every input must be a cell reference to a sourced line item.
+- **Take every number from the 10-K and nowhere else.** Use the document the user gives you (uploaded,
+  pasted, or a link you can actually open). Never use your memory or training data, a web search,
+  a data site (Yahoo Finance, Macrotrends, and so on), an earnings release, or a news article, even
+  if you think you know the number.
+- **Every number gets a source:** which 10-K (fiscal year), the statement, the line label exactly as
+  printed, and the page if visible. A number without a source does not go in Tab A.
+- **Copy numbers exactly as printed.** Do not round, rescale, or change signs in Tab A. Record the
+  units and sign convention once, at the top.
+- **Be honest about gaps. Use exactly one of these labels when a value is missing:**
+  - `NOT FOUND`: you looked and the line is not in the document you have. Say where you looked.
+  - `N/A`: the company does not have this item (for example, no inventory).
+  - `NOT PROVIDED`: the document or section that holds it was not given to you (for example, the
+    prior year's 10-K, or a cash flow statement missing from a paste). Ask for it.
+  - `—` (dash): not needed, such as year t-2 for income statement and cash flow lines, which are
+    never averaged.
+  If you cannot open the document at all, say so and stop. Never fill in from memory instead.
+- **Do not derive a missing line from other lines** unless the user agrees. If they do, label it
+  `DERIVED` and show the formula.
+- **You are not the calculator.** Give ratios as **Excel formulas that reference Tab A cells**, and let
+  the spreadsheet compute. If you show a value to sanity-check a formula, label it `CHECK`.
+  Never type a number into a formula.
 
-## Step 0: Confirm the setup (ask, do not assume)
+## Step 0: Get the documents (ask, do not assume)
 
-1. Company name, ticker, and the fiscal year end of the 10-K.
-2. Units (thousands or millions) and sign convention (are expenses shown as negatives?).
-3. How Tab A is laid out: ask the user to paste it with row numbers and column letters,
-   so your formulas point at real cells.
-4. Optional: the user's business model summary (Lab 1). Use it only to interpret, never as data.
+1. Company name, ticker, and which fiscal year.
+2. **The current 10-K** (upload, paste Item 8, or a link you can open). It covers years t and t-1.
+3. **The prior year's 10-K**, for the year t-2 balance sheet (needed to average year t-1 balances).
+   If the user does not have it, continue and mark those cells `NOT PROVIDED`.
+4. If the user already has a Tab A, ask them to paste it with row numbers and column letters, so
+   your formulas point at real cells. Otherwise you create Tab A in Step 1.
+5. Optional: the user's business model summary (Lab 1). Use it only to interpret, never as data.
 
-## Step 1: Check the inputs
+## Step 1: Fill Tab A from the 10-K
 
-The user needs these lines for year t and year t-1, plus **year t-2 for every balance sheet line**
-(needed to average balances for year t-1). The current 10-K shows only two balance sheets, so year
-t-2 comes from the **prior year's 10-K**. Each line needs a source: which 10-K, Item 8, statement
-name, line name.
+Pull these lines for year t and year t-1, plus **year t-2 for every balance sheet line** (needed to
+average balances for year t-1). The current 10-K shows only two balance sheets, so year t-2 comes
+from the **prior year's 10-K**. Lay Tab A out as:
+
+`Line item | FY t | FY t-1 | FY t-2 | Source (10-K year, statement, line as printed, page)`
+
+Also add every line a subtotal needs for check A1 (for example, "Other current assets"), and any
+line an industry replacement ratio needs. If the pasted text itself looks mistyped (a misspelled
+label, an odd heading), copy it as given, but warn the user to check it against the original 10-K.
 
 - Income statement: revenue, cost of revenue, operating income, interest expense, income before
   taxes, income tax, net income
@@ -47,10 +64,14 @@ name, line name.
 - Cash flow statement: cash from operations, capital expenditures, depreciation and amortization,
   share repurchases, dividends
 
-List anything missing as `OPEN`. If a line does not exist for this company (for example, no
-inventory), mark it `N/A` and carry that into the industry check in Step 3. If receivables are not
-shown separately, mark them `OPEN`, ask the user to check the notes, and compute the quick ratio
-without them only if labelled "excluding receivables".
+Use the labels from Rule 1 for anything missing, and carry any `N/A` into the industry check in
+Step 3. The 10-K's line names will not always match this list (for example, "Accounts receivable,
+net"); use the printed name in the source column. If receivables are not shown separately, check the
+notes; if the notes were not given, ask for them and mark `NOT PROVIDED` for now. Compute the quick
+ratio without receivables only if labelled "excluding receivables".
+
+After filling Tab A, list three values for the user to check against the 10-K themselves (pick
+ones from different statements). The articulation checks in Step 2 then test the rest.
 
 ## Step 2: Articulation checks (stop on any failure)
 
@@ -67,13 +88,17 @@ Report each as PASS or FAIL with the numbers compared:
   cash": ask the user to confirm the restricted cash amount in the notes); FAIL (anything else).
 - **A5** All lines use the same units.
 
+If a check needs a statement that was not provided, report it as `NOT RUN` and name what is
+needed. A `NOT RUN` does not stop the build; the ratios that depend on that statement stay blocked.
+
 Do not build ratios on a FAIL until the user fixes it or explicitly accepts it.
 
 ## Step 3: The dashboard (10 to 15 ratios, years t and t-1)
 
 Output one table: `Category | Ratio | Definition | Excel formula (t) | Excel formula (t-1) | Averaged?`
 
-Standard set (use these definitions exactly unless the industry check replaces one):
+Standard set. Pick 10 to 15 of these, covering all five categories, and use these definitions
+exactly unless the industry check replaces one:
 
 | Category | Ratio | Definition |
 |---|---|---|
@@ -98,7 +123,9 @@ Standard set (use these definitions exactly unless the industry check replaces o
 
 - **M1 Average only when a flow meets a stock.** Income statement or cash flow item divided by a
   balance sheet item: use (opening + closing) / 2. For year t-1 this needs the t-2 balance.
-  If it is missing, ask for it. Never type it into the formula.
+  If it is missing, ask for it. Never type it into the formula. Write the average as
+  `(B16+C16)/2`, not `AVERAGE(B16,C16)`: `AVERAGE` silently skips a text cell like `NOT FOUND`
+  and returns a wrong number with no error.
 - **M2 Never average when both sides are the same kind.** Stock over stock (current ratio, debt to
   equity) uses year-end balances. Flow over flow (margins, coverage) uses the year's flows.
 - **M3 Never average a flow across years.** EBITDA, revenue, or net income for year t is year t only.
@@ -165,14 +192,15 @@ Never present either narrative as the conclusion.
 When the user pastes an existing dashboard (ratio names and their formulas, or values with the
 line items used), do this in order:
 
-1. Step 0 briefly (company, year, units, signs) and Step 1 (list `OPEN` and `N/A` inputs).
+1. Step 0 briefly (company, year, units, signs). If the user also gives the 10-K, check their Tab A
+   values and sources against it; otherwise list missing or unsourced inputs.
 2. Step 2 articulation checks on their line items.
 3. Check every ratio against M1 to M8 and the industry check, including ratios the user added that
    are not in the standard set (judge them by the definition the user gives). Output:
 
    `Ratio | Formula as built | Rule broken | What it should be | Effect (direction and rough size)`
 
-   If the correct value depends on an `OPEN` input, give a provisional CHECK and say what it depends on.
+   If the correct value depends on a missing input, give a provisional CHECK and say what it depends on.
 4. List every hard-coded number found inside a formula. **Cross-check them against each other and
    against the rest of the workbook:** the same line item must have one value everywhere. Flag any
    number used for two different lines, or two numbers used for the same line. Ask where each came from.
@@ -184,7 +212,9 @@ Skip Steps 5 to 7 (evidence, narratives, summary) in review mode unless the user
 
 ## Final checklist (run before you answer)
 
-- [ ] Every input is a cell reference to a sourced line item. No typed numbers, no `OPEN` left silently.
+- [ ] Every Tab A number came from the 10-K and has a source. Nothing from memory or the web.
+- [ ] Every gap is labelled `NOT FOUND`, `N/A`, or `NOT PROVIDED`. No blank cells, no guesses.
+- [ ] Every formula input is a cell reference. No typed numbers.
 - [ ] A1 to A5 reported.
 - [ ] Averages used only for flow over stock (M1), and nowhere else (M2, M3).
 - [ ] Every ratio's name matches its formula (M4). Debt is borrowings, not total liabilities (M5).
@@ -195,7 +225,8 @@ Skip Steps 5 to 7 (evidence, narratives, summary) in review mode unless the user
 
 ## Never
 
-- Invent, estimate, or look up a number the user did not give you.
+- Take a number from anywhere but the 10-K: not memory, not the web, not a data site.
+- Fill a gap with an estimate. Say `NOT FOUND` instead.
 - Type a number into a formula.
 - Average a flow, or average a stock-over-stock ratio.
 - Call income before taxes "operating income", or total liabilities "debt".
@@ -203,6 +234,26 @@ Skip Steps 5 to 7 (evidence, narratives, summary) in review mode unless the user
 - Continue past a failed articulation check without the user's say-so.
 
 ## Test log
+
+*For human readers: the history of this file. Not instructions; ignore this section when running
+the skill.*
+
+**2026-09-26. Source rule test (build mode, fresh AI session).** (a) Given only "Microsoft
+FY2025" and no document: asked for the 10-K and the prior year's balance sheet, filled nothing.
+(b) Given a Netflix FY2024 excerpt with only the income statement and balance sheet: filled every
+available line with page and printed label, marked receivables NOT FOUND, the cash flow statement
+and year t-2 NOT PROVIDED, ran A1 and A2 (PASS), and flagged misspellings in the pasted text.
+- Changed after this run: added the dash label and NOT RUN verdict, "pick 10 to 15" of the standard
+  set, extra Tab A lines for subtotal checks, the `AVERAGE` warning, and this note on the test log.
+
+**2026-09-26. Microsoft, FY2025 (build mode, ChatGPT).** Given only the company name, the skill
+returned a correct but empty Tab A template: every number marked OPEN, all formulas working
+(checked by filling dummy values and recalculating: no errors, DuPont product equals ROE).
+- Problem: the rule read as "the AI never enters numbers", so users got an empty table.
+- Changed after this run: Rule 1 now says the 10-K is the only source. The AI fills Tab A from the
+  10-K the user provides, with a source for every number, and labels gaps NOT FOUND, N/A, or
+  NOT PROVIDED. Step 0 now asks for the current and prior year 10-K. Step 1 ends with three values
+  for the user to spot-check.
 
 **2026-09-26. Netflix, FY2024 (review mode, my own Lab 2 workbook).** Run cold by a separate AI
 session given only this file and the pasted workbook.
