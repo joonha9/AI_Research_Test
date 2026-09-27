@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joonha Kwon | Valuation skills</title>
+<meta name="description" content="Joonha Kwon's portfolio of tested AI skills for company valuation.">
+
+<style>
+/* ---------- Colors and type (change the look here) ---------- */
+:root {
+  --bg: #FFFFFF;           /* page background */
+  --ink: #1A1F2B;          /* body text */
+  --navy: #0B2545;         /* headings, live state */
+  --navy-tint: #EEF2F7;    /* subtle fill for live cell and badge */
+  --rule: #D9DEE6;         /* hairlines */
+  --muted: #6B7280;        /* secondary text, locked state */
+  --flag: #9B2C2C;         /* audit flags only */
+  --serif: Georgia, "Times New Roman", Times, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--sans); font-size: 16px; line-height: 1.6;
+}
+a { color: var(--navy); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- Top navigation ---------- */
+.nav { border-bottom: 1px solid var(--rule); }
+.nav .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; padding-top: 18px; padding-bottom: 18px; }
+.nav .who { font-family: var(--serif); font-size: 17px; color: var(--navy); margin-right: auto; letter-spacing: 0.01em; }
+.nav a { font-size: 14px; text-decoration: none; color: var(--muted); }
+.nav a:hover { color: var(--navy); }
+
+/* ---------- Hero ---------- */
+.hero { padding: 80px 24px 48px; }
+.hero h1 {
+  font-family: var(--serif); font-weight: 400; color: var(--navy);
+  font-size: clamp(40px, 6.5vw, 64px); line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 22px;
+}
+.hero .intro { font-size: clamp(18px, 2.2vw, 21px); line-height: 1.5; max-width: 32em; margin: 0 0 14px; color: var(--ink); }
+.hero .facts { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
+.hero .remember { font-family: var(--serif); font-style: italic; font-size: 18px; margin: 18px 0 0; max-width: 36em; color: var(--ink); }
+.hero .links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px; padding: 0; list-style: none; font-size: 15px; }
+
+/* Progress row: one cell per skill, filled when the skill is live */
+.row-wrap { margin-top: 56px; }
+.row-caption { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
+.row-caption strong { color: var(--navy); font-weight: 600; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.cell {
+  display: block; text-decoration: none; color: var(--muted); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 12px;
+}
+.cell .nm { display: block; font-family: var(--mono); font-size: 12.5px; line-height: 1.35; word-break: break-word; }
+.cell .st { display: block; font-size: 12px; margin-top: 6px; }
+.cell.live { background: var(--navy-tint); color: var(--navy); border-color: var(--navy); }
+.cell:hover { border-color: var(--navy); }
+
+/* ---------- Sections ---------- */
+section { padding: 56px 0; border-top: 1px solid var(--rule); }
+h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 3.4vw, 32px); color: var(--navy); margin: 0 0 8px; line-height: 1.15; }
+.lede { max-width: 40em; margin: 0 0 32px; color: var(--muted); font-size: 15px; }
+
+/* ---------- Skill cards ---------- */
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.card { background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 18px 20px; scroll-margin-top: 20px; }
+.card h3 { font-family: var(--mono); font-size: 15px; font-weight: 600; margin: 0 0 6px; word-break: break-word; color: var(--ink); }
+
+.card.live { grid-column: 1 / -1; border-color: var(--navy); padding: 26px 28px; }
+.card.live h3 { font-size: 18px; color: var(--navy); }
+.card.live .one { font-size: 17px; max-width: 38em; margin: 6px 0 20px; }
+.card dl { margin: 0; display: grid; grid-template-columns: 10em 1fr; border-top: 1px solid var(--rule); }
+.card dt, .card dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.card dt { color: var(--muted); font-size: 14px; padding-right: 16px; }
+.card dd { max-width: 40em; font-size: 15px; }
+@media (max-width: 620px) {
+  .card dl { grid-template-columns: 1fr; }
+  .card dt { border-bottom: 0; padding-bottom: 0; }
+  .card dd { padding-top: 2px; }
+}
+.badge { display: inline-block; font-size: 12px; padding: 1px 8px; border: 1px solid var(--navy); color: var(--navy); margin-left: 10px; vertical-align: middle; font-family: var(--sans); font-weight: 500; border-radius: 2px; }
+
+.card.locked { color: var(--muted); }
+.card.locked h3 { font-weight: 500; color: var(--muted); }
+.card.locked p { margin: 0; font-size: 13.5px; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-top: 20px; }
+button.copy { font: inherit; font-size: 14px; cursor: pointer; background: var(--navy); color: #fff; border: 0; border-radius: 2px; padding: 9px 16px; }
+button.copy:hover { background: #163A6B; }
+button.copy:disabled { background: var(--rule); color: var(--muted); cursor: not-allowed; }
+.actions a { font-size: 14px; }
+.hint { margin: 10px 0 0; font-size: 13.5px; color: var(--muted); max-width: 44em; }
+
+/* ---------- Empty states ---------- */
+.empty { border: 1px solid var(--rule); border-radius: 2px; padding: 24px 28px; max-width: 46em; color: var(--muted); font-size: 15px; }
+.empty p { margin: 0 0 10px; } .empty p:last-child { margin: 0; }
+.empty ul { margin: 0; padding-left: 20px; }
+
+/* ---------- Skill audit log ---------- */
+.log { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.entry { display: grid; grid-template-columns: 9em 1fr; gap: 8px 24px; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+@media (max-width: 620px) { .entry { grid-template-columns: 1fr; } }
+.entry .when { color: var(--muted); font-size: 14px; }
+.entry h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; color: var(--navy); }
+.entry h3 code { font-family: var(--mono); font-weight: 600; color: var(--navy); }
+.entry p { margin: 0 0 10px; max-width: 40em; font-size: 15px; }
+.flags { margin: 0; padding: 0; list-style: none; max-width: 42em; font-size: 15px; }
+.flags li { position: relative; padding: 5px 0 5px 22px; }
+.flags li::before { content: ""; position: absolute; left: 0; top: 14px; width: 10px; height: 2px; background: var(--flag); }
+.fix { color: var(--muted); }
+
+footer { border-top: 1px solid var(--rule); padding: 26px 0 48px; color: var(--muted); font-size: 13.5px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
+</style>
+</head>
+
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <span class="who" id="nav-name"></span>
+    <a href="#skills">Skills</a>
+    <a href="#valuation">Valuation</a>
+    <a href="#audit">Skill audit</a>
+  </div>
+</header>
+
+<main>
+  <!-- 1. HERO (filled in from PROFILE below) -->
+  <div class="hero wrap">
+    <h1 id="hero-name"></h1>
+    <p class="intro" id="hero-intro"></p>
+    <p class="facts" id="hero-facts"></p>
+    <p class="remember" id="hero-remember"></p>
+    <ul class="links" id="hero-links"></ul>
+
+    <div class="row-wrap">
+      <p class="row-caption" id="row-caption"></p>
+      <div class="row" id="row"></div>
+    </div>
+  </div>
+
+  <!-- 2. SKILLS (cards are drawn from the SKILLS list below) -->
+  <section id="skills">
+    <div class="wrap">
+      <h2>Skills</h2>
+      <p class="lede">Each skill is a written spec that tells an AI how to do one part of a valuation, what it may not do, and how to check its own work. A skill goes live here only after I have tested it on a real model.</p>
+      <div class="skills" id="skill-grid"></div>
+    </div>
+  </section>
+
+  <!-- 3. VALUATION (placeholder until the final project) -->
+  <section id="valuation">
+    <div class="wrap">
+      <h2>Valuation</h2>
+      <p class="lede">The final project: a full company valuation produced with my own skill stack.</p>
+      <div class="empty">
+        <p>Nothing here yet. When the final project is done, this section will hold:</p>
+        <ul>
+          <li>the company and valuation date</li>
+          <li>the value per share with a sensitivity table</li>
+          <li>links to the workbook and the written report</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SKILL AUDIT (entries are drawn from the AUDIT list below) -->
+  <section id="audit">
+    <div class="wrap">
+      <h2>Skill audit</h2>
+      <p class="lede">What each test run caught, what broke, and what I changed. Each dash is an item the skill flagged for a human to verify.</p>
+      <ol class="log" id="audit-log"></ol>
+    </div>
+  </section>
+</main>
+
+<!-- 5. FOOTER -->
+<footer>
+  <div class="wrap">
+    <span id="foot-built"></span>
+    <span id="foot-date"></span>
+  </div>
+</footer>
+
+
+<script>
+// =====================================================================
+// ===== EDIT HERE: ABOUT ME ===========================================
+// Anything left as "" is simply hidden on the page.
+// =====================================================================
+const PROFILE = {
+  name: "Joonha Kwon",
+  intro: "I write the specs that let AI do valuation work I can check: what it may use, what it may never do, and how to prove the number.",
+  major: "",        // e.g. "Accounting"
+  school: "",       // e.g. "Your University"
+  gradYear: "",     // e.g. "2027"
+  remember: "",     // one thing a recruiter should remember about me
+  links: {
+    linkedin: "",   // full URL
+    email: ""       // just the address, e.g. "me@school.edu"
+  },
+
+  // Your GitHub username and repository name. These turn on the
+  // "Copy prompt" and "View skill" buttons and the GitHub link.
+  githubUser: "",   // e.g. "jkwon"
+  repo: "",         // e.g. "valuation-skills"
+  lastUpdated: "September 26, 2026"
+};
+
+// =====================================================================
+// ===== EDIT HERE: MY SKILLS ==========================================
+// Each skill lives in your repository at skills/<name>/SKILL.md
+// To unlock a card: upload that file, then change status to "live"
+// and fill in whatItDoes and testNote. Never touch the HTML above.
+// =====================================================================
+const SKILLS = [
+  { name: "business-blueprint", lab: "Lab 1", whatItDoes: "", testNote: "", status: "locked" },
+  {
+    name: "ratio-dashboard",
+    lab: "Lab 2",
+    whatItDoes: "Builds a two-year ratio dashboard and DuPont analysis from 10-K line items I supply, written as spreadsheet formulas, or reviews a dashboard I already built. It never supplies or invents a number.",
+    testNote: "Reviewed my own Lab 2 Netflix workbook and flagged errors I had missed, including a debt-to-equity ratio twice too high. Details in the skill audit below.",
+    status: "live"
+  },
+  { name: "capex-bridge",       lab: "Lab 3", whatItDoes: "", testNote: "", status: "locked" },
+  { name: "comps-pack",         lab: "Lab 4", whatItDoes: "", testNote: "", status: "locked" }
+];
+
+// =====================================================================
+// ===== EDIT HERE: SKILL AUDIT LOG ====================================
+// Newest entry first. flags = what the skill caught. fix = what I changed.
+// =====================================================================
+const AUDIT = [
+  {
+    when: "September 2026",
+    skill: "ratio-dashboard",
+    title: "review of my Lab 2 Netflix workbook",
+    summary: "A separate AI session got only the skill file and my pasted workbook. It flagged problems I had missed when I submitted the lab:",
+    flags: [
+      "Operating margin and interest coverage were built on pre-tax income, not operating income.",
+      "EBITDA was averaged across two years, which reversed its trend.",
+      "The free cash flow margin divided by operating cash flow instead of revenue, about 5x too high.",
+      "Debt to equity used total liabilities instead of borrowings, about 2x too high.",
+      "Thirteen prior-year numbers were typed into formulas in 16 places, none with a source. One was used for three different line items, which pushed FY2023 content asset turnover from about 1.05x to 1.65x.",
+      "The cash conversion cycle treated content assets as inventory. Netflix has no inventory, so the ratio should be dropped."
+    ],
+    fix: "The run also exposed 13 unclear spots in the skill's own instructions. I rewrote those sections and listed the changes in the skill's test log."
+  }
+];
+
+
+// =====================================================================
+// Below this line is the code that draws the page. No need to edit it.
+// =====================================================================
+
+// Small helper: make an element with a class and some text
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+// ----- Hero -----
+document.getElementById("nav-name").textContent = PROFILE.name;
+document.getElementById("hero-name").textContent = PROFILE.name;
+document.getElementById("hero-intro").textContent = PROFILE.intro;
+
+const facts = [PROFILE.major, PROFILE.school, PROFILE.gradYear ? "Class of " + PROFILE.gradYear : ""].filter(Boolean);
+const factsNode = document.getElementById("hero-facts");
+if (facts.length) factsNode.textContent = facts.join(", "); else factsNode.remove();
+
+const rememberNode = document.getElementById("hero-remember");
+if (PROFILE.remember) rememberNode.textContent = PROFILE.remember; else rememberNode.remove();
+
+const linksNode = document.getElementById("hero-links");
+const linkList = [
+  ["GitHub", PROFILE.githubUser ? "https://github.com/" + PROFILE.githubUser : ""],
+  ["LinkedIn", PROFILE.links.linkedin],
+  ["Email", PROFILE.links.email ? "mailto:" + PROFILE.links.email : ""]
+].filter(function (pair) { return pair[1]; });
+if (linkList.length) {
+  linkList.forEach(function (pair) {
+    const li = el("li");
+    const a = el("a", "", pair[0]);
+    a.href = pair[1];
+    li.appendChild(a);
+    linksNode.appendChild(li);
+  });
+} else {
+  linksNode.remove();
+}
+
+// ----- Workbook row: one cell per skill -----
+const liveCount = SKILLS.filter(function (s) { return s.status === "live"; }).length;
+const caption = document.getElementById("row-caption");
+const strong = el("strong", "", liveCount + " of " + SKILLS.length);
+caption.appendChild(strong);
+caption.appendChild(document.createTextNode(" skills tested and live. Each one unlocks when its lab is done."));
+
+const row = document.getElementById("row");
+SKILLS.forEach(function (s, i) {
+  const cell = el("a", "cell" + (s.status === "live" ? " live" : ""));
+  cell.href = "#skill-" + s.name;
+  cell.appendChild(el("span", "nm", s.name));
+  cell.appendChild(el("span", "st", s.status === "live" ? "Live" : s.lab));
+  row.appendChild(cell);
+});
+
+// ----- Skill cards -----
+const grid = document.getElementById("skill-grid");
+
+function addRow(dl, label, valueNode) {
+  dl.appendChild(el("dt", "", label));
+  const dd = el("dd");
+  if (typeof valueNode === "string") dd.textContent = valueNode; else dd.appendChild(valueNode);
+  dl.appendChild(dd);
+}
+
+// Where each skill file lives in the repository
+function rawUrl(name)  { return "https://raw.githubusercontent.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/main/skills/" + name + "/SKILL.md"; }
+function viewUrl(name) { return "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/blob/main/skills/" + name + "/SKILL.md"; }
+
+// The text that "Copy prompt" puts on the clipboard
+function promptFor(name) {
+  return "Read the skill file at this link and follow it exactly for the task I give you next:\n" +
+         rawUrl(name) + "\n" +
+         "First, confirm the skill's name and list the inputs it needs from me. " +
+         "If you cannot open the link, tell me instead of guessing.";
+}
+
+function copyText(text, btn, label) {
+  function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = label; }, 1800); }
+  function fallback() {
+    // Older browsers, or the file opened by double-click
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Copy failed. Use View skill."; }
+    ta.remove();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else { fallback(); }
+}
+
+function actionsNode(name) {
+  const wrap = el("div");
+  const box = el("div", "actions");
+  const ready = PROFILE.githubUser && PROFILE.repo;
+
+  const btn = el("button", "copy", "Copy prompt");
+  btn.type = "button";
+  if (ready) {
+    btn.addEventListener("click", function () { copyText(promptFor(name), btn, "Copy prompt"); });
+  } else {
+    btn.disabled = true;
+  }
+  box.appendChild(btn);
+
+  if (ready) {
+    const view = el("a", "", "View skill");
+    view.href = viewUrl(name);
+    view.target = "_blank";
+    view.rel = "noopener";
+    box.appendChild(view);
+  }
+  wrap.appendChild(box);
+
+  wrap.appendChild(el("p", "hint", ready
+    ? "Paste into Claude, ChatGPT, or Gemini, then give it your task. If it cannot open the link, open View skill, copy the file, and paste it in."
+    : "To turn this on, fill in githubUser and repo at the top of the script."));
+  return wrap;
+}
+
+// Live skills first, then locked ones in lab order
+const ordered = SKILLS.filter(function (s) { return s.status === "live"; })
+  .concat(SKILLS.filter(function (s) { return s.status !== "live"; }));
+
+ordered.forEach(function (s) {
+  const live = s.status === "live";
+  const card = el("article", "card " + (live ? "live" : "locked"));
+  card.id = "skill-" + s.name;
+
+  const h = el("h3", "", s.name);
+  if (live) h.appendChild(el("span", "badge", "Live"));
+  card.appendChild(h);
+
+  if (live) {
+    if (s.whatItDoes) card.appendChild(el("p", "one", s.whatItDoes));
+    const dl = el("dl");
+    if (s.lab) addRow(dl, "Built in", s.lab);
+    if (s.testNote) addRow(dl, "Tested", s.testNote);
+    card.appendChild(dl);
+    card.appendChild(actionsNode(s.name));
+  } else {
+    card.appendChild(el("p", "", "Coming in " + s.lab));
+  }
+  grid.appendChild(card);
+});
+
+// ----- Skill audit log -----
+const log = document.getElementById("audit-log");
+if (!AUDIT.length) {
+  log.style.borderTop = "0";
+  const li = el("li", "empty", "No test runs logged yet. The first entry appears when the first skill goes live.");
+  log.appendChild(li);
+}
+AUDIT.forEach(function (a) {
+  const li = el("li", "entry");
+  li.appendChild(el("div", "when", a.when));
+  const body = el("div");
+  const h = el("h3");
+  h.appendChild(el("code", "", a.skill));
+  h.appendChild(document.createTextNode(": " + a.title));
+  body.appendChild(h);
+  if (a.summary) body.appendChild(el("p", "", a.summary));
+  if (a.flags && a.flags.length) {
+    const ul = el("ul", "flags");
+    a.flags.forEach(function (f) { ul.appendChild(el("li", "", f)); });
+    body.appendChild(ul);
+  }
+  if (a.fix) body.appendChild(el("p", "fix", a.fix));
+  li.appendChild(body);
+  log.appendChild(li);
+});
+
+// ----- Footer -----
+document.getElementById("foot-built").textContent = "Built with AI by " + PROFILE.name;
+document.getElementById("foot-date").textContent = "Last updated " + PROFILE.lastUpdated;
+</script>
+</body>
+</html>
