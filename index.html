@@ -216,6 +216,19 @@ const PROFILE = {
   lastUpdated: "September 30, 2026"
 };
 
+// If githubUser / repo are left blank and this page is hosted on GitHub Pages,
+// work them out from the web address (https://USER.github.io/REPO/).
+// Typing them in above always wins. Opened by double-click, this does nothing.
+(function () {
+  if (PROFILE.githubUser && PROFILE.repo) return;
+  var host = location.hostname;
+  if (host.slice(-10) !== ".github.io") return;
+  var user = host.slice(0, -10);
+  var first = location.pathname.split("/")[1];
+  if (!PROFILE.githubUser) PROFILE.githubUser = user;
+  if (!PROFILE.repo) PROFILE.repo = (first && first !== "index.html") ? first : user + ".github.io";
+})();
+
 // =====================================================================
 // ===== EDIT HERE: MY SKILLS ==========================================
 // Each skill lives in your repository at skills/<name>/SKILL.md
