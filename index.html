@@ -211,9 +211,9 @@ const PROFILE = {
 
   // Your GitHub username and repository name. These turn on the
   // "Copy prompt" and "View skill" buttons and the GitHub link.
-  githubUser: "joonha9",   // e.g. "jkwon"
-  repo: "AI_Research_Test",         // e.g. "valuation-skills"
-  lastUpdated: "September 26, 2026"
+  githubUser: "",   // e.g. "jkwon"
+  repo: "",         // e.g. "valuation-skills"
+  lastUpdated: "September 30, 2026"
 };
 
 // =====================================================================
@@ -227,12 +227,20 @@ const SKILLS = [
   {
     name: "ratio-dashboard",
     lab: "Lab 2",
-    whatItDoes: "Pulls two years of line items from a company's 10-K, with the page for every number, then builds the ratio dashboard and DuPont analysis as spreadsheet formulas. If a number is not in the 10-K, it says so instead of guessing. It can also review a dashboard I already built.",
+    whatItDoes: "Builds a two-year ratio dashboard and DuPont analysis from 10-K line items I supply, written as spreadsheet formulas, or reviews a dashboard I already built. It never supplies or invents a number.",
     testNote: "Reviewed my own Lab 2 Netflix workbook and flagged errors I had missed, including a debt-to-equity ratio twice too high. Details in the skill audit below.",
     status: "live"
   },
   { name: "capex-bridge",       lab: "Lab 3", whatItDoes: "", testNote: "", status: "locked" },
-  { name: "comps-pack",         lab: "Lab 4", whatItDoes: "", testNote: "", status: "locked" }
+  // comps-pack: text is ready. After I test it, add testNote, add an AUDIT entry below,
+  // and change status to "live".
+  {
+    name: "comps-pack",
+    lab: "Lab 4",
+    whatItDoes: "Builds a trading-comps workbook from the 10-Ks of a target and its peers, with every number sourced, or reviews a comps workbook I already built. It leaves the multiple, the adjustments and the conclusion to me and never writes the memo.",
+    testNote: "",
+    status: "locked"
+  }
 ];
 
 // =====================================================================
