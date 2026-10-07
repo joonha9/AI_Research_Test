@@ -213,7 +213,7 @@ const PROFILE = {
   // "Copy prompt" and "View skill" buttons and the GitHub link.
   githubUser: "",   // e.g. "jkwon"
   repo: "",         // e.g. "valuation-skills"
-  lastUpdated: "September 30, 2026"
+  lastUpdated: "October 7, 2026"
 };
 
 // If githubUser / repo are left blank and this page is hosted on GitHub Pages,
@@ -234,9 +234,19 @@ const PROFILE = {
 // Each skill lives in your repository at skills/<name>/SKILL.md
 // To unlock a card: upload that file, then change status to "live"
 // and fill in whatItDoes and testNote. Never touch the HTML above.
+// Optional: template = path to a file inside skills/<name>/ (adds a download link).
 // =====================================================================
 const SKILLS = [
-  { name: "business-blueprint", lab: "Lab 1", whatItDoes: "", testNote: "", status: "locked" },
+  // business-blueprint: live while I test it. After the test, add an AUDIT entry below and
+  // replace testNote with the result. To hide it again, set status back to "locked".
+  {
+    name: "business-blueprint",
+    lab: "Lab 1",
+    whatItDoes: "Builds an evidence workbook from a company's 10-K: a business model blueprint, a KPI ledger, a fluency-trap test and an audit trail, with every claim quoted and located. Or reviews a Lab 1 write-up I already made. It never fills my cells or writes the report.",
+    testNote: "Testing in progress. Results will appear in the skill audit below.",
+    template: "assets/business_blueprint_template.xlsx",
+    status: "live"
+  },
   {
     name: "ratio-dashboard",
     lab: "Lab 2",
@@ -350,6 +360,7 @@ function addRow(dl, label, valueNode) {
 // Where each skill file lives in the repository
 function rawUrl(name)  { return "https://raw.githubusercontent.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/main/skills/" + name + "/SKILL.md"; }
 function viewUrl(name) { return "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/blob/main/skills/" + name + "/SKILL.md"; }
+function fileUrl(name, path) { return "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/raw/main/skills/" + name + "/" + path; }
 
 // The text that "Copy prompt" puts on the clipboard
 function promptFor(name) {
@@ -373,7 +384,7 @@ function copyText(text, btn, label) {
   } else { fallback(); }
 }
 
-function actionsNode(name) {
+function actionsNode(name, template) {
   const wrap = el("div");
   const box = el("div", "actions");
   const ready = PROFILE.githubUser && PROFILE.repo;
@@ -393,6 +404,11 @@ function actionsNode(name) {
     view.target = "_blank";
     view.rel = "noopener";
     box.appendChild(view);
+    if (template) {
+      const dl = el("a", "", "Download template");
+      dl.href = fileUrl(name, template);
+      box.appendChild(dl);
+    }
   }
   wrap.appendChild(box);
 
@@ -421,7 +437,7 @@ ordered.forEach(function (s) {
     if (s.lab) addRow(dl, "Built in", s.lab);
     if (s.testNote) addRow(dl, "Tested", s.testNote);
     card.appendChild(dl);
-    card.appendChild(actionsNode(s.name));
+    card.appendChild(actionsNode(s.name, s.template));
   } else {
     card.appendChild(el("p", "", "Coming in " + s.lab));
   }
