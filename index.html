@@ -3,193 +3,255 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Joonha Kwon | Valuation skills</title>
-<meta name="description" content="Joonha Kwon's portfolio of tested AI skills for company valuation.">
+<title>Joonha Kwon | Valuation skill stack</title>
+<meta name="description" content="Joonha Kwon's tested AI skills for company valuation, run in order from source documents to a DCF.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* ---------- Colors and type (change the look here) ---------- */
 :root {
-  --bg: #FFFFFF;           /* page background */
-  --ink: #1A1F2B;          /* body text */
-  --navy: #0B2545;         /* headings, live state */
-  --navy-tint: #EEF2F7;    /* subtle fill for live cell and badge */
-  --rule: #D9DEE6;         /* hairlines */
-  --muted: #6B7280;        /* secondary text, locked state */
-  --flag: #9B2C2C;         /* audit flags only */
-  --serif: Georgia, "Times New Roman", Times, serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  color-scheme: light;
+  --paper: #FFFFFF;        /* page */
+  --ink: #1F2430;          /* body text */
+  --navy: #0A2240;         /* headings, tested steps */
+  --steel: #3D6B98;        /* steps in testing, links on hover */
+  --steel-tint: #DCE6F1;   /* steps being built, table header fill */
+  --grey-fill: #EEF1F4;    /* planned steps */
+  --rule: #C8CED7;         /* table rules */
+  --muted: #5E6675;        /* secondary text */
+  --flag: #9B2C2C;         /* what a test caught */
+  --font: "Libre Franklin", "Franklin Gothic Medium", "Helvetica Neue", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--sans); font-size: 16px; line-height: 1.6;
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font); font-size: 16px; line-height: 1.55;
+  font-variant-numeric: tabular-nums;
 }
 a { color: var(--navy); text-underline-offset: 3px; }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
-.wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+a:hover { color: var(--steel); }
+:focus-visible { outline: 2px solid var(--steel); outline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+@media (max-width: 640px) { .wrap { padding: 0 16px; } }
 
-/* ---------- Top navigation ---------- */
-.nav { border-bottom: 1px solid var(--rule); }
-.nav .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; padding-top: 18px; padding-bottom: 18px; }
-.nav .who { font-family: var(--serif); font-size: 17px; color: var(--navy); margin-right: auto; letter-spacing: 0.01em; }
-.nav a { font-size: 14px; text-decoration: none; color: var(--muted); }
-.nav a:hover { color: var(--navy); }
+/* ---------- Top bar ---------- */
+.top { border-bottom: 3px solid var(--navy); }
+.top .wrap { display: flex; flex-wrap: wrap; gap: 6px 28px; align-items: baseline; padding-top: 16px; padding-bottom: 14px; }
+.top .who { font-weight: 700; color: var(--navy); margin-right: auto; font-size: 17px; }
+.top nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.top nav a { font-size: 14px; text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--navy); }
 
-/* ---------- Hero ---------- */
-.hero { padding: 80px 24px 48px; }
-.hero h1 {
-  font-family: var(--serif); font-weight: 400; color: var(--navy);
-  font-size: clamp(40px, 6.5vw, 64px); line-height: 1.05; letter-spacing: -0.01em; margin: 0 0 22px;
+/* ---------- Cover ---------- */
+.cover { padding-top: 72px; padding-bottom: 56px; }
+.cover .by { margin: 0 0 18px; color: var(--muted); font-size: 15px; }
+.cover h1 {
+  margin: 0 0 18px; color: var(--navy); font-weight: 600;
+  font-size: clamp(34px, 5.4vw, 56px); line-height: 1.06; letter-spacing: -0.015em; max-width: 15em;
 }
-.hero .intro { font-size: clamp(18px, 2.2vw, 21px); line-height: 1.5; max-width: 32em; margin: 0 0 14px; color: var(--ink); }
-.hero .facts { color: var(--muted); margin: 0 0 6px; font-size: 15px; }
-.hero .remember { font-family: var(--serif); font-style: italic; font-size: 18px; margin: 18px 0 0; max-width: 36em; color: var(--ink); }
-.hero .links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px; padding: 0; list-style: none; font-size: 15px; }
+.cover .intro { margin: 0 0 40px; font-size: clamp(17px, 2vw, 20px); line-height: 1.5; max-width: 34em; }
+.cover .links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: -22px 0 40px; padding: 0; list-style: none; font-size: 15px; }
 
-/* Progress row: one cell per skill, filled when the skill is live */
-.row-wrap { margin-top: 56px; }
-.row-caption { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
-.row-caption strong { color: var(--navy); font-weight: 600; }
-.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
-.cell {
-  display: block; text-decoration: none; color: var(--muted); background: var(--bg);
-  border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 12px;
-}
-.cell .nm { display: block; font-family: var(--mono); font-size: 12.5px; line-height: 1.35; word-break: break-word; }
-.cell .st { display: block; font-size: 12px; margin-top: 6px; }
-.cell.live { background: var(--navy-tint); color: var(--navy); border-color: var(--navy); }
-.cell:hover { border-color: var(--navy); }
+/* Key terms table, as on a pitch book summary page */
+.terms { width: 100%; max-width: 760px; border-collapse: collapse; font-size: 15px; }
+.terms th, .terms td { text-align: left; vertical-align: top; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+.terms tr:first-child th, .terms tr:first-child td { border-top: 2px solid var(--navy); }
+.terms th { width: 11em; padding-right: 20px; font-weight: 600; color: var(--navy); }
 
 /* ---------- Sections ---------- */
-section { padding: 56px 0; border-top: 1px solid var(--rule); }
-h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 3.4vw, 32px); color: var(--navy); margin: 0 0 8px; line-height: 1.15; }
-.lede { max-width: 40em; margin: 0 0 32px; color: var(--muted); font-size: 15px; }
+section.page { padding: 64px 0 56px; border-top: 1px solid var(--rule); }
+h2 { margin: 0 0 8px; color: var(--navy); font-weight: 600; font-size: clamp(25px, 3.2vw, 32px); line-height: 1.15; letter-spacing: -0.01em; }
+.lede { margin: 0 0 32px; max-width: 42em; color: var(--muted); }
+.source { margin: 24px 0 0; font-size: 13px; color: var(--muted); }
 
-/* ---------- Skill cards ---------- */
-.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.card { background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 18px 20px; scroll-margin-top: 20px; }
-.card h3 { font-family: var(--mono); font-size: 15px; font-weight: 600; margin: 0 0 6px; word-break: break-word; color: var(--ink); }
-
-.card.live { grid-column: 1 / -1; border-color: var(--navy); padding: 26px 28px; }
-.card.live h3 { font-size: 18px; color: var(--navy); }
-.card.live .one { font-size: 17px; max-width: 38em; margin: 6px 0 20px; }
-.card dl { margin: 0; display: grid; grid-template-columns: 10em 1fr; border-top: 1px solid var(--rule); }
-.card dt, .card dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--rule); }
-.card dt { color: var(--muted); font-size: 14px; padding-right: 16px; }
-.card dd { max-width: 40em; font-size: 15px; }
-@media (max-width: 620px) {
-  .card dl { grid-template-columns: 1fr; }
-  .card dt { border-bottom: 0; padding-bottom: 0; }
-  .card dd { padding-top: 2px; }
+/* ---------- Process flow ---------- */
+.flow { display: grid; gap: 10px; }
+.band {
+  width: 100%; font: inherit; text-align: left; cursor: pointer;
+  display: flex; flex-wrap: wrap; gap: 2px 14px; align-items: baseline;
+  padding: 12px 18px; border-radius: 0; background: var(--paper); color: var(--ink);
 }
-.badge { display: inline-block; font-size: 12px; padding: 1px 8px; border: 1px solid var(--navy); color: var(--navy); margin-left: 10px; vertical-align: middle; font-family: var(--sans); font-weight: 500; border-radius: 2px; }
+.band strong { color: var(--navy); font-weight: 600; }
+.band span { color: var(--muted); font-size: 14px; }
+.band:hover { background: var(--grey-fill); }
+.band-top { border: 1px solid var(--navy); border-bottom-width: 3px; }
+.band-bottom { border: 1px dashed var(--steel); }
 
-.card.locked { color: var(--muted); }
-.card.locked h3 { font-weight: 500; color: var(--muted); }
-.card.locked p { margin: 0; font-size: 13.5px; }
+.chevrons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.chev {
+  width: 100%; height: 100%; min-height: 118px; font: inherit; text-align: left; cursor: pointer; border: 0;
+  padding: 14px 24px 14px 30px; display: flex; flex-direction: column; gap: 4px;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%);
+}
+.chevrons li:first-child .chev { padding-left: 16px; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); }
+.chev .n { font-size: 13px; font-weight: 600; opacity: 0.85; }
+.chev .nm { font-size: 15px; font-weight: 600; line-height: 1.25; }
+.chev .st { margin-top: auto; font-size: 12.5px; }
+.chev.live     { background: var(--navy); color: #fff; }
+.chev.testing  { background: var(--steel); color: #fff; }
+.chev.building { background: var(--steel-tint); color: var(--navy); }
+.chev.planned  { background: var(--grey-fill); color: var(--muted); }
+.chev:hover { filter: brightness(1.12); }
+.chev.building:hover, .chev.planned:hover { filter: brightness(0.96); }
 
-.actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-top: 20px; }
-button.copy { font: inherit; font-size: 14px; cursor: pointer; background: var(--navy); color: #fff; border: 0; border-radius: 2px; padding: 9px 16px; }
-button.copy:hover { background: #163A6B; }
-button.copy:disabled { background: var(--rule); color: var(--muted); cursor: not-allowed; }
-.actions a { font-size: 14px; }
-.hint { margin: 10px 0 0; font-size: 13.5px; color: var(--muted); max-width: 44em; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 18px 0 0; padding: 0; list-style: none; font-size: 13.5px; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend i { width: 14px; height: 14px; display: inline-block; }
+.legend .live { background: var(--navy); }
+.legend .testing { background: var(--steel); }
+.legend .building { background: var(--steel-tint); }
+.legend .planned { background: var(--grey-fill); outline: 1px solid var(--rule); outline-offset: -1px; }
 
-/* ---------- Empty states ---------- */
-.empty { border: 1px solid var(--rule); border-radius: 2px; padding: 24px 28px; max-width: 46em; color: var(--muted); font-size: 15px; }
-.empty p { margin: 0 0 10px; } .empty p:last-child { margin: 0; }
-.empty ul { margin: 0; padding-left: 20px; }
+@media (max-width: 860px) {
+  .chevrons { grid-template-columns: 1fr; gap: 3px; }
+  .chev, .chevrons li:first-child .chev {
+    min-height: 0; padding: 12px 18px 24px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), 50% 100%, 0 calc(100% - 12px));
+  }
+  .chev .st { margin-top: 2px; }
+}
 
-/* ---------- Skill audit log ---------- */
-.log { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
-.entry { display: grid; grid-template-columns: 9em 1fr; gap: 8px 24px; padding: 22px 0; border-bottom: 1px solid var(--rule); }
-@media (max-width: 620px) { .entry { grid-template-columns: 1fr; } }
-.entry .when { color: var(--muted); font-size: 14px; }
-.entry h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; color: var(--navy); }
-.entry h3 code { font-family: var(--mono); font-weight: 600; color: var(--navy); }
-.entry p { margin: 0 0 10px; max-width: 40em; font-size: 15px; }
-.flags { margin: 0; padding: 0; list-style: none; max-width: 42em; font-size: 15px; }
-.flags li { position: relative; padding: 5px 0 5px 22px; }
+/* ---------- Tables (test record) ---------- */
+.table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.table thead th { background: var(--steel-tint); color: var(--navy); font-weight: 600; text-align: left; padding: 10px 14px; border-top: 2px solid var(--navy); }
+.table td { vertical-align: top; padding: 18px 14px; border-bottom: 1px solid var(--rule); }
+.table td:first-child { white-space: nowrap; color: var(--muted); }
+.table .skill-link { font: inherit; font-weight: 600; color: var(--navy); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-align: left; }
+.table .skill-link:hover { color: var(--steel); }
+.table p { margin: 0 0 10px; max-width: 46em; }
+.flags { margin: 0 0 10px; padding: 0; list-style: none; max-width: 46em; }
+.flags li { position: relative; padding: 4px 0 4px 20px; }
 .flags li::before { content: ""; position: absolute; left: 0; top: 14px; width: 10px; height: 2px; background: var(--flag); }
 .fix { color: var(--muted); }
+@media (max-width: 720px) {
+  .table thead { display: none; }
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table tr { border-bottom: 1px solid var(--rule); padding: 14px 0; }
+  .table td { border: 0; padding: 2px 0; }
+}
 
-footer { border-top: 1px solid var(--rule); padding: 26px 0 48px; color: var(--muted); font-size: 13.5px; }
+/* ---------- Valuation placeholder ---------- */
+.pending { border-top: 2px solid var(--navy); border-bottom: 1px solid var(--rule); padding: 20px 0; max-width: 46em; }
+.pending p { margin: 0; }
+
+/* ---------- Modal ---------- */
+dialog {
+  width: min(720px, calc(100vw - 32px)); max-height: calc(100vh - 48px);
+  padding: 0; border: 0; border-top: 4px solid var(--navy); color: var(--ink); background: var(--paper);
+  box-shadow: 0 24px 64px rgba(10, 34, 64, 0.28);
+}
+dialog::backdrop { background: rgba(10, 34, 64, 0.45); }
+dialog[open] { animation: rise 160ms ease-out; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { dialog[open] { animation: none; } }
+.m-head { display: flex; gap: 16px; align-items: flex-start; padding: 24px 28px 8px; }
+.m-head h3 { margin: 0; font-size: 24px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+.m-head .m-sub { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.m-close { margin-left: auto; font: inherit; font-size: 14px; background: none; border: 1px solid var(--rule); padding: 6px 12px; cursor: pointer; color: var(--ink); }
+.m-close:hover { border-color: var(--navy); }
+.m-body { padding: 8px 28px 28px; }
+.m-body > p { margin: 0 0 18px; font-size: 16.5px; max-width: 40em; }
+.m-facts { width: 100%; border-collapse: collapse; font-size: 15px; margin: 0 0 18px; }
+.m-facts th, .m-facts td { text-align: left; vertical-align: top; padding: 9px 0; border-bottom: 1px solid var(--rule); }
+.m-facts tr:first-child th, .m-facts tr:first-child td { border-top: 2px solid var(--navy); }
+.m-facts th { width: 9.5em; padding-right: 16px; font-weight: 600; color: var(--navy); }
+.m-facts ul { margin: 0; padding-left: 18px; }
+.m-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+button.copy { font: inherit; font-size: 15px; font-weight: 500; cursor: pointer; background: var(--navy); color: #fff; border: 0; padding: 10px 18px; }
+button.copy:hover { background: var(--steel); }
+.m-body > p.hint { margin: 12px 0 0; font-size: 13.5px; color: var(--muted); max-width: 44em; }
+
+footer { border-top: 3px solid var(--navy); padding: 22px 0 44px; color: var(--muted); font-size: 13.5px; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: space-between; }
 </style>
 </head>
 
 <body>
 
-<header class="nav">
+<header class="top">
   <div class="wrap">
     <span class="who" id="nav-name"></span>
-    <a href="#skills">Skills</a>
-    <a href="#valuation">Valuation</a>
-    <a href="#audit">Skill audit</a>
+    <nav aria-label="Sections">
+      <a href="#process">Process</a>
+      <a href="#record">Test record</a>
+      <a href="#valuation">Valuation</a>
+    </nav>
   </div>
 </header>
 
 <main>
-  <!-- 1. HERO (filled in from PROFILE below) -->
-  <div class="hero wrap">
-    <h1 id="hero-name"></h1>
-    <p class="intro" id="hero-intro"></p>
-    <p class="facts" id="hero-facts"></p>
-    <p class="remember" id="hero-remember"></p>
-    <ul class="links" id="hero-links"></ul>
-
-    <div class="row-wrap">
-      <p class="row-caption" id="row-caption"></p>
-      <div class="row" id="row"></div>
-    </div>
+  <!-- 1. COVER (filled in from PROFILE and SKILLS below) -->
+  <div class="cover wrap">
+    <p class="by" id="cover-by"></p>
+    <h1>A skill stack for company valuation</h1>
+    <p class="intro" id="cover-intro"></p>
+    <ul class="links" id="cover-links"></ul>
+    <table class="terms" id="terms"></table>
   </div>
 
-  <!-- 2. SKILLS (cards are drawn from the SKILLS list below) -->
-  <section id="skills">
+  <!-- 2. PROCESS (chevrons are drawn from the SKILLS list below) -->
+  <section class="page" id="process">
     <div class="wrap">
-      <h2>Skills</h2>
-      <p class="lede">Each skill is a written spec that tells an AI how to do one part of a valuation, what it may not do, and how to check its own work. A skill goes live here only after I have tested it on a real model.</p>
-      <div class="skills" id="skill-grid"></div>
+      <h2>How the stack runs</h2>
+      <p class="lede">Each skill does one step of the valuation and hands its tabs to the next. The same skills also run one at a time for a single lab. Select a step to see what it does, what it never does, and how it was tested.</p>
+      <div class="flow">
+        <button type="button" class="band band-top" id="band-top"></button>
+        <ol class="chevrons" id="chevrons" aria-label="Steps in order"></ol>
+        <button type="button" class="band band-bottom" id="band-rules"></button>
+      </div>
+      <ul class="legend" id="legend"></ul>
+      <p class="source" id="source-process"></p>
     </div>
   </section>
 
-  <!-- 3. VALUATION (placeholder until the final project) -->
-  <section id="valuation">
+  <!-- 3. TEST RECORD (rows are drawn from the AUDIT list below) -->
+  <section class="page" id="record">
+    <div class="wrap">
+      <h2>Test record</h2>
+      <p class="lede">A skill is tested by a separate AI session that gets only the skill file and a task. I grade the run myself against the documents. Each red dash is something the run caught.</p>
+      <table class="table">
+        <thead><tr><th scope="col">Date</th><th scope="col">Skill</th><th scope="col">What was tested and what it found</th></tr></thead>
+        <tbody id="audit-rows"></tbody>
+      </table>
+      <p class="source" id="source-record"></p>
+    </div>
+  </section>
+
+  <!-- 4. VALUATION (placeholder until the final project) -->
+  <section class="page" id="valuation">
     <div class="wrap">
       <h2>Valuation</h2>
-      <p class="lede">The final project: a full company valuation produced with my own skill stack.</p>
-      <div class="empty">
-        <p>Nothing here yet. When the final project is done, this section will hold:</p>
-        <ul>
-          <li>the company and valuation date</li>
-          <li>the value per share with a sensitivity table</li>
-          <li>links to the workbook and the written report</li>
-        </ul>
+      <p class="lede">The final project: an Amazon DCF produced with this stack.</p>
+      <div class="pending">
+        <p>Not run yet. When the stack is complete, this page will show the value per share, the sensitivity table, and links to the workbook and the report.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- 4. SKILL AUDIT (entries are drawn from the AUDIT list below) -->
-  <section id="audit">
-    <div class="wrap">
-      <h2>Skill audit</h2>
-      <p class="lede">What each test run caught, what broke, and what I changed. Each dash is an item the skill flagged for a human to verify.</p>
-      <ol class="log" id="audit-log"></ol>
     </div>
   </section>
 </main>
 
-<!-- 5. FOOTER -->
 <footer>
   <div class="wrap">
     <span id="foot-built"></span>
     <span id="foot-date"></span>
   </div>
 </footer>
+
+<!-- Skill detail modal (filled in by openSkill below) -->
+<dialog id="modal" aria-labelledby="m-title">
+  <div class="m-head">
+    <div>
+      <h3 id="m-title"></h3>
+      <p class="m-sub" id="m-sub"></p>
+    </div>
+    <button type="button" class="m-close" id="m-close">Close</button>
+  </div>
+  <div class="m-body" id="m-body"></div>
+</dialog>
 
 
 <script>
@@ -200,81 +262,162 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: s
 const PROFILE = {
   name: "Joonha Kwon",
   intro: "I write the specs that let AI do valuation work I can check: what it may use, what it may never do, and how to prove the number.",
+  course: "AI Applications in Business",
   major: "",        // e.g. "Accounting"
-  school: "",       // e.g. "Your University"
+  school: "",       // e.g. "Boston College, Carroll School of Management"
   gradYear: "",     // e.g. "2027"
-  remember: "",     // one thing a recruiter should remember about me
   links: {
     linkedin: "",   // full URL
     email: ""       // just the address, e.g. "me@school.edu"
   },
 
-  // Your GitHub username and repository name. These turn on the
-  // "Copy prompt" and "View skill" buttons and the GitHub link.
-  githubUser: "",   // e.g. "jkwon"
-  repo: "",         // e.g. "valuation-skills"
-  lastUpdated: "October 7, 2026"
+  // GitHub username and repository. These turn on "Copy prompt", the skill links and the sources.
+  githubUser: "joonha9",
+  repo: "AI_Research_Test",
+  lastUpdated: "October 16, 2026"
 };
-
-// If githubUser / repo are left blank and this page is hosted on GitHub Pages,
-// work them out from the web address (https://USER.github.io/REPO/).
-// Typing them in above always wins. Opened by double-click, this does nothing.
-(function () {
-  if (PROFILE.githubUser && PROFILE.repo) return;
-  var host = location.hostname;
-  if (host.slice(-10) !== ".github.io") return;
-  var user = host.slice(0, -10);
-  var first = location.pathname.split("/")[1];
-  if (!PROFILE.githubUser) PROFILE.githubUser = user;
-  if (!PROFILE.repo) PROFILE.repo = (first && first !== "index.html") ? first : user + ".github.io";
-})();
 
 // =====================================================================
 // ===== EDIT HERE: MY SKILLS ==========================================
-// Each skill lives in your repository at skills/<name>/SKILL.md
-// To unlock a card: upload that file, then change status to "live"
-// and fill in whatItDoes and testNote. Never touch the HTML above.
-// Optional: template = path to a file inside skills/<name>/ (adds a download link).
+// In stack order. Each skill lives at skills/<name>/SKILL.md.
+// status: "live" (tested), "testing" (usable, test in progress),
+//         "building" (written, not published), "planned".
+// "Copy prompt" appears only for live and testing skills.
 // =====================================================================
 const SKILLS = [
-  // business-blueprint: live while I test it. After the test, add an AUDIT entry below and
-  // replace testNote with the result. To hide it again, set status back to "locked".
+  {
+    name: "source-pack",
+    title: "Source pack",
+    lab: "Final project",
+    status: "testing",
+    short: "Source list and verbatim excerpts",
+    whatItDoes: "Builds or verifies the list of official documents for any public company, proves each one was opened, and copies the passages that matter into an excerpt file with source IDs, so every later step cites the same documents. It can also check a workbook's citations against its source list.",
+    inputs: "Ticker, as-of date, the key question; the assignment's exhibit list if there is one",
+    outputs: "Source_Log tab; Evidence_Pack.xlsx (verbatim excerpts)",
+    never: ["Interprets or labels evidence", "Looks up market data", "Uses news, analyst reports or data sites", "Quotes a page it could not read in full text"],
+    testNote: "Eight cold runs on Alphabet, Amazon and Costco. Version 0.3, with the fixes from those runs, is waiting for its final run."
+  },
   {
     name: "business-blueprint",
+    title: "Business blueprint",
     lab: "Lab 1",
-    whatItDoes: "Builds an evidence workbook from a company's 10-K: a business model blueprint, a KPI ledger, a fluency-trap test and an audit trail, with every claim quoted and located. Or reviews a Lab 1 write-up I already made. It never fills my cells or writes the report.",
-    testNote: "Testing in progress. Results will appear in the skill audit below.",
-    template: "assets/business_blueprint_template.xlsx",
-    status: "live"
+    status: "testing",
+    short: "Engines, customers, KPIs",
+    whatItDoes: "Builds an evidence workbook from a company's 10-K: a business model blueprint, a KPI ledger, a fluency-trap test and an audit trail, with every claim quoted and located. In the final project it fills the segment engine and KPI tabs. It can also review a Lab 1 write-up.",
+    inputs: "The 10-K",
+    outputs: "Blueprint, KPI_Spine, Fluency_Test, Audit_Trail; in the final project, Segment_Engine and KPI_Spine",
+    never: ["Fills the student's cells", "Writes the report", "Uses anything outside the 10-K in Lab 1"],
+    testNote: "Testing in progress."
+    // template: "assets/business_blueprint_template.xlsx",  // add back once the file is uploaded
   },
   {
     name: "ratio-dashboard",
+    title: "Ratio dashboard",
     lab: "Lab 2",
-    whatItDoes: "Builds a two-year ratio dashboard and DuPont analysis from 10-K line items I supply, written as spreadsheet formulas, or reviews a dashboard I already built. It never supplies or invents a number.",
-    testNote: "Reviewed my own Lab 2 Netflix workbook and flagged errors I had missed, including a debt-to-equity ratio twice too high. Details in the skill audit below.",
-    status: "live"
+    status: "live",
+    short: "Ratios, DuPont, history checks",
+    whatItDoes: "Builds a two-year ratio dashboard and DuPont analysis as spreadsheet formulas from 10-K line items, or reviews a dashboard already built. In the final project it checks the historical statements and the growth and margin drivers.",
+    inputs: "The current and prior-year 10-K",
+    outputs: "Ratio dashboard and DuPont as formulas; in the final project, checks on Hist_IS, Hist_BS, Hist_CF and Hist_Drivers",
+    never: ["Supplies or invents a number", "Types a value into the student's history tabs", "Continues past a failed balance check"],
+    testNote: "Reviewed my own Lab 2 Netflix workbook and caught errors I had missed, including a debt-to-equity ratio twice too high."
   },
-  { name: "capex-bridge",       lab: "Lab 3", whatItDoes: "", testNote: "", status: "locked" },
-  // comps-pack: live while I test it. After the test, add an AUDIT entry below and
-  // replace testNote with the result. To hide it again, set status back to "locked".
+  {
+    name: "capex-bridge",
+    title: "Capex bridge",
+    lab: "Lab 3",
+    status: "planned",
+    short: "Reinvestment and ROIC",
+    whatItDoes: "Will build the reinvestment history: capital spending, depreciation, net investment, invested capital and ROIC, and the growth they imply.",
+    inputs: "The 10-Ks and the Source_Log",
+    outputs: "The reinvestment rows of Hist_Drivers",
+    never: [],
+    testNote: ""
+  },
+  {
+    name: "forecast-bridge",
+    title: "Forecast bridge",
+    lab: "Lab 8",
+    status: "planned",
+    short: "Evidence to forecast",
+    whatItDoes: "Will connect the evidence to the forecast: a fact bank with labels, a driver tree, and for each assumption a range, the evidence behind it and what would prove it wrong. The point estimates stay with the student.",
+    inputs: "Source_Log and Evidence_Pack",
+    outputs: "Fact_Bank, Driver_Tree, Forecast_Assumptions, Forecast_Model checks",
+    never: [],
+    testNote: ""
+  },
+  {
+    name: "dcf-valuation",
+    title: "DCF valuation",
+    lab: "Final project",
+    status: "planned",
+    short: "WACC, terminal value, bridge",
+    whatItDoes: "Will build the discount rate, continuing value, the bridge from enterprise value to equity value, and the sensitivity tables, and check that debt and leases are treated the same way in each.",
+    inputs: "The forecast and student-typed market data",
+    outputs: "Market_Data, WACC, DCF, Sensitivity",
+    never: [],
+    testNote: ""
+  },
   {
     name: "comps-pack",
+    title: "Comps pack",
     lab: "Lab 4",
-    whatItDoes: "Builds a trading-comps workbook from the 10-Ks of a target and its peers, with every number sourced, or reviews a comps workbook I already built. It leaves the multiple, the adjustments and the conclusion to me and never writes the memo.",
-    testNote: "Testing in progress. Results will appear in the skill audit below.",
-    status: "live"
+    status: "testing",
+    short: "Trading multiples cross-check",
+    whatItDoes: "Builds a trading-comps workbook from the 10-Ks of a target and its peers, with every number sourced, or reviews one already built. In the final project it is the multiples cross-check on the DCF.",
+    inputs: "The 10-Ks of the target and peers; student-typed share prices",
+    outputs: "Inputs, normalization, EV bridge, multiples, implied price; in the final project, Multiples",
+    never: ["Picks the multiple, the peer statistic or the adjustments", "Looks up a share price", "Writes the memo or a verdict"],
+    testNote: "Testing in progress."
   }
 ];
 
+// The skill that runs the others, shown as the band above the steps
+const ORCHESTRATOR = {
+  name: "company-analysis",
+  title: "Company analysis",
+  lab: "Final project",
+  status: "planned",
+  short: "Runs the steps in order and stops at any failed check",
+  whatItDoes: "Will run the steps in order, hand each one's tabs to the next, stop when an earlier check fails, collect the prompt log, and check that every number in the report matches the workbook. It packages the whole stack as one installable plugin.",
+  inputs: "The final project workbook",
+  outputs: "Checks and Prompt_Log",
+  never: [],
+  testNote: ""
+};
+
+// The rules every skill shares (conventions.md), shown as the band below the steps
+const RULES = [
+  ["One source list", "Every number and quote cites a document in the Source_Log: SEC filings, the company's own investor documents, or market data the student types in."],
+  ["Proof of reading", "Each document carries a line copied from it. A tool that only summarizes a page has not read it."],
+  ["The same labels", "FACT, PROXY, ASSUMPTION, INFERENCE, and NOT FOUND or NOT PROVIDED for gaps, spelled the same in every skill."],
+  ["Formulas only", "Every computed cell is a spreadsheet formula. No typed numbers, no links to other files."],
+  ["The student decides", "Point estimates, memos and conclusions are the student's. The AI never fills those cells."],
+  ["Gates", "If an earlier step fails a check, the next step does not run."]
+];
+
 // =====================================================================
-// ===== EDIT HERE: SKILL AUDIT LOG ====================================
-// Newest entry first. flags = what the skill caught. fix = what I changed.
+// ===== EDIT HERE: TEST RECORD =========================================
+// Newest first. flags = what the run caught. fix = what I changed.
 // =====================================================================
 const AUDIT = [
   {
-    when: "September 2026",
+    when: "Oct 2026",
+    skill: "source-pack",
+    title: "Eight cold runs on Alphabet, Amazon and Costco",
+    summary: "I re-opened the documents and matched every open check and excerpt myself.",
+    flags: [
+      "Verified all ten links in the Lab 8 exhibit list and reported a filing-date mismatch instead of fixing it.",
+      "Built Amazon's and Costco's source lists from the ticker alone, including the 10-Qs and releases, and marked the call transcripts neither company posts.",
+      "Copied 56 excerpts from an earnings release and a call transcript; all 56 matched the documents word for word.",
+      "Found citations in my own Lab 8 workbook that point to the wrong document, including third-quarter figures filed under the fourth-quarter release."
+    ],
+    fix: "The runs also broke the skill twice: one rule missed Amazon's 10-Qs, and web tools that summarize pages made verbatim excerpts impossible. Version 0.3 asks for the fiscal year's 10-Qs and reads from uploaded files."
+  },
+  {
+    when: "Sep 2026",
     skill: "ratio-dashboard",
-    title: "review of my Lab 2 Netflix workbook",
+    title: "Review of my Lab 2 Netflix workbook",
     summary: "A separate AI session got only the skill file and my pasted workbook. It flagged problems I had missed when I submitted the lab:",
     flags: [
       "Operating margin and interest coverage were built on pre-tax income, not operating income.",
@@ -293,7 +436,13 @@ const AUDIT = [
 // Below this line is the code that draws the page. No need to edit it.
 // =====================================================================
 
-// Small helper: make an element with a class and some text
+const STATUS = {
+  live:     { label: "Tested",     note: "Tested on a real model and published." },
+  testing:  { label: "In testing", note: "Published and usable; tests are still running." },
+  building: { label: "Building",   note: "Written and being tested; not published yet." },
+  planned:  { label: "Planned",    note: "Not written yet." }
+};
+
 function el(tag, cls, text) {
   const node = document.createElement(tag);
   if (cls) node.className = cls;
@@ -301,68 +450,142 @@ function el(tag, cls, text) {
   return node;
 }
 
-// ----- Hero -----
-document.getElementById("nav-name").textContent = PROFILE.name;
-document.getElementById("hero-name").textContent = PROFILE.name;
-document.getElementById("hero-intro").textContent = PROFILE.intro;
-
-const facts = [PROFILE.major, PROFILE.school, PROFILE.gradYear ? "Class of " + PROFILE.gradYear : ""].filter(Boolean);
-const factsNode = document.getElementById("hero-facts");
-if (facts.length) factsNode.textContent = facts.join(", "); else factsNode.remove();
-
-const rememberNode = document.getElementById("hero-remember");
-if (PROFILE.remember) rememberNode.textContent = PROFILE.remember; else rememberNode.remove();
-
-const linksNode = document.getElementById("hero-links");
-const linkList = [
-  ["GitHub", PROFILE.githubUser ? "https://github.com/" + PROFILE.githubUser : ""],
-  ["LinkedIn", PROFILE.links.linkedin],
-  ["Email", PROFILE.links.email ? "mailto:" + PROFILE.links.email : ""]
-].filter(function (pair) { return pair[1]; });
-if (linkList.length) {
-  linkList.forEach(function (pair) {
-    const li = el("li");
-    const a = el("a", "", pair[0]);
-    a.href = pair[1];
-    li.appendChild(a);
-    linksNode.appendChild(li);
-  });
-} else {
-  linksNode.remove();
-}
-
-// ----- Workbook row: one cell per skill -----
-const liveCount = SKILLS.filter(function (s) { return s.status === "live"; }).length;
-const caption = document.getElementById("row-caption");
-const strong = el("strong", "", liveCount + " of " + SKILLS.length);
-caption.appendChild(strong);
-caption.appendChild(document.createTextNode(" skills tested and live. Each one unlocks when its lab is done."));
-
-const row = document.getElementById("row");
-SKILLS.forEach(function (s, i) {
-  const cell = el("a", "cell" + (s.status === "live" ? " live" : ""));
-  cell.href = "#skill-" + s.name;
-  cell.appendChild(el("span", "nm", s.name));
-  cell.appendChild(el("span", "st", s.status === "live" ? "Live" : s.lab));
-  row.appendChild(cell);
-});
-
-// ----- Skill cards -----
-const grid = document.getElementById("skill-grid");
-
-function addRow(dl, label, valueNode) {
-  dl.appendChild(el("dt", "", label));
-  const dd = el("dd");
-  if (typeof valueNode === "string") dd.textContent = valueNode; else dd.appendChild(valueNode);
-  dl.appendChild(dd);
-}
-
-// Where each skill file lives in the repository
+const repoReady = Boolean(PROFILE.githubUser && PROFILE.repo);
+function repoUrl(path) { return "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/blob/main/" + path; }
 function rawUrl(name)  { return "https://raw.githubusercontent.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/main/skills/" + name + "/SKILL.md"; }
-function viewUrl(name) { return "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/blob/main/skills/" + name + "/SKILL.md"; }
 function fileUrl(name, path) { return "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo + "/raw/main/skills/" + name + "/" + path; }
 
-// The text that "Copy prompt" puts on the clipboard
+// A "Source:" footnote with links into the repository
+function sourceLine(node, parts) {
+  node.appendChild(document.createTextNode("Source: "));
+  parts.forEach(function (p, i) {
+    if (i) node.appendChild(document.createTextNode(i === parts.length - 1 ? " and " : ", "));
+    if (repoReady) { const a = el("a", "", p[0]); a.href = repoUrl(p[1]); node.appendChild(a); }
+    else node.appendChild(document.createTextNode(p[0]));
+  });
+  node.appendChild(document.createTextNode("."));
+}
+
+// ----- Cover -----
+document.getElementById("nav-name").textContent = PROFILE.name;
+const by = [PROFILE.name, PROFILE.course, PROFILE.school, PROFILE.major, PROFILE.gradYear ? "Class of " + PROFILE.gradYear : ""].filter(Boolean);
+document.getElementById("cover-by").textContent = by.join(", ");
+document.getElementById("cover-intro").textContent = PROFILE.intro;
+
+const linksNode = document.getElementById("cover-links");
+[["GitHub", repoReady ? "https://github.com/" + PROFILE.githubUser + "/" + PROFILE.repo : ""],
+ ["LinkedIn", PROFILE.links.linkedin],
+ ["Email", PROFILE.links.email ? "mailto:" + PROFILE.links.email : ""]]
+  .filter(function (pair) { return pair[1]; })
+  .forEach(function (pair) {
+    const li = el("li"); const a = el("a", "", pair[0]); a.href = pair[1]; li.appendChild(a); linksNode.appendChild(li);
+  });
+if (!linksNode.children.length) linksNode.remove();
+
+const all = SKILLS.concat([ORCHESTRATOR]);
+function count(st) { return all.filter(function (s) { return s.status === st; }).length; }
+const statusLine = ["live", "testing", "building", "planned"]
+  .filter(function (st) { return count(st); })
+  .map(function (st) { return count(st) + " " + STATUS[st].label.toLowerCase(); }).join(", ");
+
+const terms = document.getElementById("terms");
+[["Skills", all.length + " in the stack: " + statusLine],
+ ["Covers", "Labs 1 to 8 and the final project, an Amazon DCF"],
+ ["Source rule", "SEC filings and the company's own investor documents only. The AI is never a source."],
+ ["Judgment", "Point estimates, memos and conclusions stay with the student."],
+ ["As of", PROFILE.lastUpdated]]
+  .forEach(function (r) {
+    const tr = el("tr"); tr.appendChild(el("th", "", r[0])); tr.lastChild.scope = "row"; tr.appendChild(el("td", "", r[1])); terms.appendChild(tr);
+  });
+
+// ----- Process flow -----
+const bandTop = document.getElementById("band-top");
+bandTop.appendChild(el("strong", "", ORCHESTRATOR.title));
+bandTop.appendChild(el("span", "", ORCHESTRATOR.short + ". " + STATUS[ORCHESTRATOR.status].label + "."));
+bandTop.addEventListener("click", function () { openSkill(ORCHESTRATOR); });
+
+const chevrons = document.getElementById("chevrons");
+SKILLS.forEach(function (s, i) {
+  const li = el("li");
+  const b = el("button", "chev " + s.status);
+  b.type = "button";
+  b.appendChild(el("span", "n", "Step " + (i + 1)));
+  b.appendChild(el("span", "nm", s.title));
+  b.appendChild(el("span", "st", STATUS[s.status].label));
+  b.setAttribute("aria-label", "Step " + (i + 1) + ", " + s.title + ", " + STATUS[s.status].label + ". Show details.");
+  b.addEventListener("click", function () { openSkill(s, i + 1); });
+  li.appendChild(b);
+  chevrons.appendChild(li);
+});
+
+const rulesBand = document.getElementById("band-rules");
+rulesBand.appendChild(el("strong", "", "Shared rules"));
+rulesBand.appendChild(el("span", "", "One source list, the same labels, formulas only, and the student decides. Every skill carries them."));
+rulesBand.addEventListener("click", openRules);
+
+const legend = document.getElementById("legend");
+["live", "testing", "building", "planned"].forEach(function (st) {
+  const li = el("li");
+  li.appendChild(el("i", st)); li.appendChild(document.createTextNode(STATUS[st].label));
+  legend.appendChild(li);
+});
+
+sourceLine(document.getElementById("source-process"), [["conventions.md", "conventions.md"], ["the skill files", "skills"]]);
+
+// ----- Test record -----
+const rows = document.getElementById("audit-rows");
+AUDIT.forEach(function (a) {
+  const tr = el("tr");
+  tr.appendChild(el("td", "", a.when));
+  const tdSkill = el("td");
+  const s = all.find(function (x) { return x.name === a.skill; });
+  if (s) {
+    const b = el("button", "skill-link", s.title); b.type = "button";
+    b.addEventListener("click", function () { openSkill(s, SKILLS.indexOf(s) + 1 || null); });
+    tdSkill.appendChild(b);
+  } else tdSkill.textContent = a.skill;
+  tr.appendChild(tdSkill);
+  const td = el("td");
+  td.appendChild(el("p", "", a.title + ". " + (a.summary || "")));
+  if (a.flags && a.flags.length) {
+    const ul = el("ul", "flags");
+    a.flags.forEach(function (f) { ul.appendChild(el("li", "", f)); });
+    td.appendChild(ul);
+  }
+  if (a.fix) td.appendChild(el("p", "fix", a.fix));
+  tr.appendChild(td);
+  rows.appendChild(tr);
+});
+sourceLine(document.getElementById("source-record"), [["tests/source-pack/README.md", "tests/source-pack/README.md"], ["each skill's test log", "skills"]]);
+
+// ----- Modal -----
+const modal = document.getElementById("modal");
+const mTitle = document.getElementById("m-title");
+const mSub = document.getElementById("m-sub");
+const mBody = document.getElementById("m-body");
+document.getElementById("m-close").addEventListener("click", function () { modal.close(); });
+modal.addEventListener("click", function (e) { if (e.target === modal) modal.close(); });  // click on the backdrop
+
+function factRow(table, label, value) {
+  const tr = el("tr"); const th = el("th", "", label); th.scope = "row"; tr.appendChild(th);
+  const td = el("td");
+  if (Array.isArray(value)) { const ul = el("ul"); value.forEach(function (v) { ul.appendChild(el("li", "", v)); }); td.appendChild(ul); }
+  else td.textContent = value;
+  tr.appendChild(td); table.appendChild(tr);
+}
+
+function copyText(text, btn, label) {
+  function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = label; }, 1800); }
+  function fallback() {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Copy failed. Open the skill file instead."; }
+    ta.remove();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
+  else fallback();
+}
+
 function promptFor(name) {
   return "Read the skill file at this link and follow it exactly for the task I give you next:\n" +
          rawUrl(name) + "\n" +
@@ -370,105 +593,57 @@ function promptFor(name) {
          "If you cannot open the link, tell me instead of guessing.";
 }
 
-function copyText(text, btn, label) {
-  function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = label; }, 1800); }
-  function fallback() {
-    // Older browsers, or the file opened by double-click
-    const ta = document.createElement("textarea");
-    ta.value = text; document.body.appendChild(ta); ta.select();
-    try { document.execCommand("copy"); done(); } catch (e) { btn.textContent = "Copy failed. Use View skill."; }
-    ta.remove();
-  }
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done, fallback);
-  } else { fallback(); }
-}
+function openSkill(s, step) {
+  mTitle.textContent = s.title;
+  mSub.textContent = (step ? "Step " + step + " of " + SKILLS.length + ". " : "Runs the whole stack. ") + "Built in " + s.lab + ". " + STATUS[s.status].label + ".";
+  mBody.replaceChildren();
+  mBody.appendChild(el("p", "", s.whatItDoes));
 
-function actionsNode(name, template) {
-  const wrap = el("div");
-  const box = el("div", "actions");
-  const ready = PROFILE.githubUser && PROFILE.repo;
+  const t = el("table", "m-facts");
+  factRow(t, "Takes", s.inputs);
+  factRow(t, "Produces", s.outputs);
+  if (s.never.length) factRow(t, "Never", s.never);
+  factRow(t, "Status", s.testNote ? STATUS[s.status].note + " " + s.testNote : STATUS[s.status].note);
+  mBody.appendChild(t);
 
-  const btn = el("button", "copy", "Copy prompt");
-  btn.type = "button";
-  if (ready) {
-    btn.addEventListener("click", function () { copyText(promptFor(name), btn, "Copy prompt"); });
-  } else {
-    btn.disabled = true;
-  }
-  box.appendChild(btn);
-
-  if (ready) {
-    const view = el("a", "", "View skill");
-    view.href = viewUrl(name);
-    view.target = "_blank";
-    view.rel = "noopener";
+  const usable = s.status === "live" || s.status === "testing";
+  if (usable && repoReady) {
+    const box = el("div", "m-actions");
+    const btn = el("button", "copy", "Copy prompt"); btn.type = "button";
+    btn.addEventListener("click", function () { copyText(promptFor(s.name), btn, "Copy prompt"); });
+    box.appendChild(btn);
+    const view = el("a", "", "Open the skill file on GitHub");
+    view.href = repoUrl("skills/" + s.name + "/SKILL.md"); view.target = "_blank"; view.rel = "noopener";
     box.appendChild(view);
-    if (template) {
-      const dl = el("a", "", "Download template");
-      dl.href = fileUrl(name, template);
-      box.appendChild(dl);
-    }
+    if (s.template) { const dl = el("a", "", "Download the template"); dl.href = fileUrl(s.name, s.template); box.appendChild(dl); }
+    mBody.appendChild(box);
+    mBody.appendChild(el("p", "hint", "Paste the prompt into Claude, ChatGPT or Gemini, then give it your task. If it cannot open the link, open the skill file, copy it, and paste it in."));
   }
-  wrap.appendChild(box);
-
-  wrap.appendChild(el("p", "hint", ready
-    ? "Paste into Claude, ChatGPT, or Gemini, then give it your task. If it cannot open the link, open View skill, copy the file, and paste it in."
-    : "To turn this on, fill in githubUser and repo at the top of the script."));
-  return wrap;
+  modal.showModal();
 }
 
-// Live skills first, then locked ones in lab order
-const ordered = SKILLS.filter(function (s) { return s.status === "live"; })
-  .concat(SKILLS.filter(function (s) { return s.status !== "live"; }));
-
-ordered.forEach(function (s) {
-  const live = s.status === "live";
-  const card = el("article", "card " + (live ? "live" : "locked"));
-  card.id = "skill-" + s.name;
-
-  const h = el("h3", "", s.name);
-  if (live) h.appendChild(el("span", "badge", "Live"));
-  card.appendChild(h);
-
-  if (live) {
-    if (s.whatItDoes) card.appendChild(el("p", "one", s.whatItDoes));
-    const dl = el("dl");
-    if (s.lab) addRow(dl, "Built in", s.lab);
-    if (s.testNote) addRow(dl, "Tested", s.testNote);
-    card.appendChild(dl);
-    card.appendChild(actionsNode(s.name, s.template));
-  } else {
-    card.appendChild(el("p", "", "Coming in " + s.lab));
+function openRules() {
+  mTitle.textContent = "Shared rules";
+  mSub.textContent = "Every skill carries the same block of rules, so they agree when they run together.";
+  mBody.replaceChildren();
+  const t = el("table", "m-facts");
+  RULES.forEach(function (r) { factRow(t, r[0], r[1]); });
+  mBody.appendChild(t);
+  if (repoReady) {
+    const box = el("div", "m-actions");
+    const a = el("a", "", "Read conventions.md on GitHub"); a.href = repoUrl("conventions.md"); a.target = "_blank"; a.rel = "noopener";
+    box.appendChild(a); mBody.appendChild(box);
   }
-  grid.appendChild(card);
-});
-
-// ----- Skill audit log -----
-const log = document.getElementById("audit-log");
-if (!AUDIT.length) {
-  log.style.borderTop = "0";
-  const li = el("li", "empty", "No test runs logged yet. The first entry appears when the first skill goes live.");
-  log.appendChild(li);
+  modal.showModal();
 }
-AUDIT.forEach(function (a) {
-  const li = el("li", "entry");
-  li.appendChild(el("div", "when", a.when));
-  const body = el("div");
-  const h = el("h3");
-  h.appendChild(el("code", "", a.skill));
-  h.appendChild(document.createTextNode(": " + a.title));
-  body.appendChild(h);
-  if (a.summary) body.appendChild(el("p", "", a.summary));
-  if (a.flags && a.flags.length) {
-    const ul = el("ul", "flags");
-    a.flags.forEach(function (f) { ul.appendChild(el("li", "", f)); });
-    body.appendChild(ul);
-  }
-  if (a.fix) body.appendChild(el("p", "fix", a.fix));
-  li.appendChild(body);
-  log.appendChild(li);
-});
+
+// Open a skill directly from a link such as index.html#source-pack
+(function () {
+  const name = decodeURIComponent(location.hash.slice(1));
+  const i = SKILLS.findIndex(function (s) { return s.name === name; });
+  if (i >= 0) openSkill(SKILLS[i], i + 1);
+  else if (name === ORCHESTRATOR.name) openSkill(ORCHESTRATOR);
+})();
 
 // ----- Footer -----
 document.getElementById("foot-built").textContent = "Built with AI by " + PROFILE.name;
