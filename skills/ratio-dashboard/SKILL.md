@@ -380,7 +380,7 @@ printed.
 | Segment_Engine, KPI_Spine | BB | Fills from quoted evidence |
 | Hist_IS, Hist_BS, Hist_CF | student | RD checks sources and articulation; never types values |
 | Hist_Segments | student | FB checks sources and totals; never types values |
-| Hist_Drivers | RD (growth, margins), CB (reinvestment, invested capital, ROIC) | Checks the formulas |
+| Hist_Drivers (and `CB_Evidence`) | RD (growth, margins), CB (reinvestment, invested capital, ROIC) | Checks the formulas; CB also lists the depreciation evidence |
 | Fact_Bank, Driver_Tree, Forecast_Assumptions, Forecast_Model, Continuing_Value_Note | FB | Evidence, ranges and checks; point estimates and the note are STUDENT |
 | Market_Data, WACC, DCF, Sensitivity | DV | Mechanics and checks; market data is STUDENT-INPUT |
 | Multiples (and its `CP_` support tabs) | CP | Comps mechanics; choices are STUDENT |

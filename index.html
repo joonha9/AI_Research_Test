@@ -326,13 +326,13 @@ const SKILLS = [
     name: "capex-bridge",
     title: "Capex bridge",
     lab: "Lab 3",
-    status: "planned",
-    short: "Reinvestment and ROIC",
-    whatItDoes: "Will build the reinvestment history: capital spending, depreciation, net investment, invested capital and ROIC, and the growth they imply.",
-    inputs: "The 10-Ks and the Source_Log",
-    outputs: "The reinvestment rows of Hist_Drivers",
-    never: [],
-    testNote: ""
+    status: "testing",
+    short: "Depreciation and reinvestment",
+    whatItDoes: "Turns a company's depreciation and capital-spending disclosures into an evidence binder where every amount is tagged by year, actual or estimate, and before or after tax; then builds the reported-to-normalized earnings bridges, reconciles the company's capex measures, and computes reinvestment diagnostics as formulas. In the final project it checks the reinvestment and ROIC history.",
+    inputs: "The 10-K and any exhibits the assignment provides",
+    outputs: "Evidence binder, earnings bridges, capex reconciliation, reinvestment diagnostics; in the final project, checks on Hist_Drivers and a depreciation evidence tab",
+    never: ["Uses next year's estimate as this year's effect", "Builds one capex measure out of another", "Calls depreciation over net PP&E a useful life", "Decides what is non-recurring or writes the memo"],
+    testNote: "Caught all 12 problems I had listed in my own Lab 3 submission. On Alphabet's 10-K, which reports no useful-life change that year, it said so instead of recalling an older one."
   },
   {
     name: "forecast-bridge",
@@ -401,6 +401,19 @@ const RULES = [
 // Newest first. flags = what the run caught. fix = what I changed.
 // =====================================================================
 const AUDIT = [
+  {
+    when: "Oct 2026",
+    skill: "capex-bridge",
+    title: "Three cold runs: my Lab 3 submission, Amazon FY2024 and Alphabet FY2025",
+    summary: "I graded each run against Amazon's and Alphabet's 10-Ks myself.",
+    flags: [
+      "Caught all 12 problems I had listed in my Lab 3 memo and workbook, including a net-additions figure of $78.6B that is not in the 10-K (it prints $85.8B).",
+      "Showed that two of my bridge adjustments cited the wrong lines: a 2025 estimate used as a 2024 charge, and a pre-tax figure used as an after-tax one.",
+      "Noticed that I had attached the reason given for the useful-life changes to the capex increase, which the 10-K explains differently.",
+      "On Alphabet's FY2025 10-K, reported no useful-life change for the year instead of recalling an earlier one, and left construction in progress out of the implied asset life."
+    ],
+    fix: "The runs exposed gaps in the skill's own tags and in companies that do not report net additions. Version 0.2 fixes them."
+  },
   {
     when: "Oct 2026",
     skill: "forecast-bridge",
@@ -570,7 +583,7 @@ AUDIT.forEach(function (a) {
   tr.appendChild(td);
   rows.appendChild(tr);
 });
-sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["each skill's test log", "skills"]]);
+sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["each skill's test log", "skills"]]);
 
 // ----- Modal -----
 const modal = document.getElementById("modal");
