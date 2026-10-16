@@ -88,4 +88,7 @@ the test session's word for it.
 | D2 | v0.2 | PASS | Blind. Caught item 3 (F10 names the Q3 2025 release under S5; F12 cites Q3 2025 and Q3 2024 Cloud figures to S3), plus items 1, 4 and 12 and noted item 2. 45 findings was too many to act on: v0.3 orders and groups them. |
 | E2 | v0.2 | PASS | From uploaded files: 56 excerpts (E001 to E056). Independent check: 45 exact, 8 tables with every number present, 3 differing only by spacing around HTML-split "%" and "•". Hedges kept; tags from the list. |
 
-v0.3 changes were made from these runs and are not yet re-tested.
+| B3 | v0.3 | PASS | 29 rows (down from 36): FY2025, FY2024 and FY2022 10-Ks (the minimum set for four income statements and opening balance sheets), three FY2025 10-Qs, four releases, slides, one transcript row per quarter `NOT AVAILABLE`, letter, five posts, five empty placeholders. |
+| E3 | v0.3 | PASS | 62 excerpts (E001 to E062). Independent check: all 62 found once spacing around HTML-split bullets, "$" and "%" is ignored. Four figures that differ between the release and the call were excerpted as printed and noted, not reconciled. |
+
+Open wording points from B3 and E3 (minor, not yet changed): dates for undated slides and placeholder rows; whether quarterly call slides count as an investor presentation; which metadata date to use; open check for a document with neither title nor date.

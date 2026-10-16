@@ -338,13 +338,13 @@ const SKILLS = [
     name: "forecast-bridge",
     title: "Forecast bridge",
     lab: "Lab 8",
-    status: "planned",
+    status: "testing",
     short: "Evidence to forecast",
-    whatItDoes: "Will connect the evidence to the forecast: a fact bank with labels, a driver tree, and for each assumption a range, the evidence behind it and what would prove it wrong. The point estimates stay with the student.",
-    inputs: "Source_Log and Evidence_Pack",
-    outputs: "Fact_Bank, Driver_Tree, Forecast_Assumptions, Forecast_Model checks",
-    never: [],
-    testNote: ""
+    whatItDoes: "Connects the evidence to the forecast: a dated timeline, a fact bank with one label per fact, a driver tree, and for each assumption a range whose two ends each rest on a cited fact, plus what would prove it wrong. Then it checks that growth, margins, depreciation and capex hang together. The point estimates stay with the student.",
+    inputs: "Source_Log and Evidence_Pack (or the documents); the Lab 8 or final project workbook",
+    outputs: "Timeline, Fact_Bank, Driver_Tree, an assumption-ranges tab, and checks on Forecast_Bridge or Forecast_Model",
+    never: ["Sets a point estimate, even when asked", "Writes the memo or the continuing-value note", "Quotes anything it has not read, or works from memory", "Changes a template formula"],
+    testNote: "Caught all 12 problems I had listed in my own Lab 8 submission, plus a segment total that was 14,000 off. On a case it had never seen, its ranges overlapped the instructor's."
   },
   {
     name: "dcf-valuation",
@@ -401,6 +401,20 @@ const RULES = [
 // Newest first. flags = what the run caught. fix = what I changed.
 // =====================================================================
 const AUDIT = [
+  {
+    when: "Oct 2026",
+    skill: "forecast-bridge",
+    title: "Seven cold runs on my Lab 8 submission and the ApexCo case",
+    summary: "I checked each run against my own list of Lab 8 problems and the instructor's ApexCo forecast mapping.",
+    flags: [
+      "Caught all 12 problems I had listed in my Lab 8 workbook and memo, from a quote that was really the source list's description to a backlog multiple on the wrong base.",
+      "Found an error I had missed: my 2024 segment operating income added up to 98,390 against a total of 112,390.",
+      "Flagged that my forecast raised depreciation without charging it to the margin, so a higher depreciation input raised free cash flow.",
+      "On the ApexCo case, built growth segment by segment; every range overlapped the instructor's, and terminal growth of 2% to 3.5% contained the instructor's 3%.",
+      "Refused to work from memory, and refused to pick point estimates for a student short on time."
+    ],
+    fix: "The first ApexCo ranges were two to three times wider than the instructor's. Version 0.3 makes each end of a range rest on its own fact and anchors terminal growth on a stated long-run rate."
+  },
   {
     when: "Oct 2026",
     skill: "source-pack",
@@ -556,7 +570,7 @@ AUDIT.forEach(function (a) {
   tr.appendChild(td);
   rows.appendChild(tr);
 });
-sourceLine(document.getElementById("source-record"), [["tests/source-pack/README.md", "tests/source-pack/README.md"], ["each skill's test log", "skills"]]);
+sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["each skill's test log", "skills"]]);
 
 // ----- Modal -----
 const modal = document.getElementById("modal");

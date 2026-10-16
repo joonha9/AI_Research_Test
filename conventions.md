@@ -76,8 +76,10 @@ Tab `Coverage`: `Source ID | Sections read | Sections not read | Note`.
 - Gaps: `NOT DISCLOSED` (text: the document does not say it), `NOT FOUND` (a number: you looked and it
   is not there), `NOT PROVIDED` (the document or section was not given to you), `NOT AVAILABLE` (the
   company does not publish it), `N/A` (does not apply), `—` (not needed). Always say where you looked.
-- Checks: `PASS`, `FAIL`, `NOT RUN` (it needs something not available; say what). A quote that could
-  not be checked because its document was not available is `UNVERIFIED`.
+- Checks: `PASS`, `FAIL`, `FLAG` (not wrong by itself, but the student must explain or decide),
+  `NOT RUN` (it needs something not available; say what). A quote that could not be checked because
+  its document was not available is `UNVERIFIED`. A `Checks` tab has the columns
+  `Check ID | What it tests | Verdict | Cells and values compared | Note`.
 - Where a value came from: `FACT` (copied as printed from a Source_Log document), `STUDENT-INPUT`
   (typed by the student, for example market data, with provider and as-of date), `DERIVED` (computed
   from other cells, formula shown), `ASSUMPTION` (a modeling choice), `OPEN` (not filled yet), `CHECK`
