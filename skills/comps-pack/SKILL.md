@@ -1,6 +1,6 @@
 ---
 name: comps-pack
-description: Build or review a trading-comps workbook (target vs peers, EV/EBITDA and other multiples, implied share price) using numbers taken only from the companies' 10-Ks, each with its source. Use for comparable-company valuation (Lab 4 style). It never writes the memo, picks the multiple, or gives a verdict; those are the student's decisions. If a number is not in the 10-K, it says NOT FOUND instead of filling it in.
+description: Build or review a trading-comps workbook (target vs peers, EV/EBITDA and other multiples, implied share price) using numbers taken only from the companies' 10-Ks, each with its Source ID. Use for comparable-company valuation (Lab 4 style) and for the final project's Multiples cross-check. It never writes the memo, picks the multiple, or gives a verdict; those are the student's decisions. If a number is not in the 10-K, it says NOT FOUND instead of filling it in.
 ---
 
 # Comps Pack
@@ -17,18 +17,23 @@ judgment and writes the memo.** It works in any AI chat. It has two modes:
 
 If the user does not say which mode, ask.
 
-## Rule 1: The 10-K is the only source (one exception)
+## Rule 1: The 10-Ks in the Source_Log are the only source (one exception)
+
+The stack conventions at the end of this file apply throughout. This rule is narrower than them.
 
 - **Take every financial number from the 10-Ks and nowhere else.** Use the documents the user gives you
-  (uploaded, pasted, or a link you can actually open). Never use your memory or training data, a web
+  (uploaded, pasted, or a link you can actually open). Each 10-K is a row of the Source_Log: the
+  target's is kind `A`, each peer's kind `E`. Start the Source_Log in Step 0 if there is none. Even in
+  stack mode, where the Source_Log also lists 10-Qs and releases, financial numbers for comps come from
+  10-Ks so every company is on the same basis. Never use your memory or training data, a web
   search, a data site (FactSet, Yahoo Finance, Macrotrends, and so on), an earnings release, a call
   transcript, or a news article, even if you think you know the number. A "core earnings" table or any
   figure that does not appear in the 10-K is not a 10-K number.
 - **The one exception: share price and market capitalization.** They are not in a 10-K. The **student
   types them in**, with the source (for example "FactSet") and the **as-of date**. You never look them
-  up. Label them `STUDENT-INPUT`. If the student has not typed them, leave the cells blank and mark
-  `NOT PROVIDED`.
-- **Every number gets a source:** which company's 10-K (fiscal year), the Item and statement or note,
+  up. Label them `STUDENT-INPUT`. Each provider and as-of date is a kind `D` row of the Source_Log. If
+  the student has not typed them, leave the cells blank and mark `NOT PROVIDED`.
+- **Every number gets a source:** the Source ID, which company's 10-K (fiscal year), the Item and statement or note,
   the line label exactly as printed, and the page if visible. A number without a source does not go
   in Inputs.
 - **Copy numbers exactly as printed.** Do not round, rescale, or change signs in Inputs. Record units
@@ -78,10 +83,13 @@ You may point to evidence in the workbook. You do not say which answer is right.
 5. If the user already has a workbook, ask them to paste it with tab names, row numbers and column
    letters so your formulas point at real cells. Otherwise you create it in Step 1.
 6. Optional: the student's business-model notes (earlier labs). Use them only to interpret, never as data.
+7. Start the Source_Log: one row per 10-K (target kind `A`, peers kind `E`) and one kind `D` row per
+   market data provider and date. If the user's workbook already has a Source_Log with the final
+   project tabs, you are in stack mode: use its Source IDs and read "Stack mode (final project)".
 
 ## Step 1: Fill the Inputs tab from the 10-Ks
 
-Layout: `Company | Line item | Value | Unit | Label | Source (10-K FY, Item, statement or note, line as printed, page) | As-of date`.
+Layout: `Company | Line item | Value | Unit | Label | Source (Source ID, 10-K FY, Item, statement or note, line as printed, page) | As-of date`.
 
 Pull these for each company. Use the printed label in the source column. For the decision-tree evidence
 you also need the prior year's value, which the same 10-K prints as the comparative column.
@@ -111,8 +119,9 @@ different companies and statements).
 Report each as PASS or FAIL with the numbers compared. If a check needs something not provided, report
 `NOT RUN` and name what is needed.
 
-- **C1 Sources.** Every Inputs number has a source and a label. Market data has an as-of date. No
-  source points to a chat turn, a data site or an earnings release.
+- **C1 Sources.** Every Inputs number has a source and a label, and its Source ID is in the
+  Source_Log. Market data has an as-of date. No source points to a chat turn, a data site or an
+  earnings release.
 - **C2 Units and signs.** One unit and currency across all companies. Balance sheet assets and
   liabilities are entered as printed (positive). **A balance sheet asset entered as a negative number
   is a FAIL:** ask the student to confirm against the 10-K.
@@ -284,9 +293,29 @@ When the user pastes or uploads a workbook (and optionally the numbers from thei
 
 Skip the judgment tab in review mode. Never say which multiple, statistic or adjustment is correct.
 
+## Stack mode (final project)
+
+Use this when the user's workbook already has a Source_Log and the final project tabs. In the final
+project, trading multiples are **a cross-check on the DCF**, not the valuation. Use the peers the
+assignment specifies; if it names none, ask.
+
+- **Tabs.** You own `Multiples` (stack convention S10); create it at the end of the workbook if the
+  template has none. Put the supporting tabs in the same workbook with a `CP_` prefix so they never
+  collide with the template's tabs: `CP_Inputs`, `CP_Normalization`, `CP_EV_Bridge`,
+  `CP_Decisions`. `Multiples` holds what Step 5 and Step 6 produce.
+- **Target inputs.** Read the target's share price, share count and bridge items from `Market_Data`
+  by cell reference; never retype them. Peers' market data is `STUDENT-INPUT` in `CP_Inputs`, each
+  with a kind `D` Source_Log row.
+- **Leases.** D4 must match the lease treatment in `WACC` and the `DCF` bridge. If it does not, C5 is
+  a FAIL; show both cells and let the student decide which to change.
+- **DCF next to the range.** If the `DCF` tab has a value per share, show it beside the implied range
+  by cell reference, with no verdict on which is right.
+- Add C1 to C13 to the workbook's `Checks` tab as `CP.C1` to `CP.C13`.
+
 ## Final checklist (run before you answer)
 
-- [ ] Every financial number came from a 10-K and has a source. Only the price and market cap are student-typed.
+- [ ] Every financial number came from a 10-K in the Source_Log and has a source with its Source ID.
+      Only the price and market cap are student-typed.
 - [ ] Every gap is labeled `NOT FOUND`, `N/A`, or `NOT PROVIDED`. No blank cells, no guesses, no `0` for "not found".
 - [ ] Every computed cell is a formula referencing cells. No typed numbers.
 - [ ] Every decision cell is blank, and every dependent cell says `WAITING FOR STUDENT DECISION`.
@@ -300,7 +329,8 @@ Skip the judgment tab in review mode. Never say which multiple, statistic or adj
 
 ## Never
 
-- Take a financial number from anywhere but the 10-Ks: not memory, not the web, not a data site.
+- Take a financial number from anywhere but the 10-Ks in the Source_Log: not memory, not the web, not
+  a data site.
 - Look up or fill in a share price or market cap. The student types them.
 - Choose the multiple, the statistic, the adjustments, the lease treatment, or the fiscal-year handling.
 - Write the executive summary, the thesis, or say "overvalued", "undervalued" or "fairly valued".
@@ -310,10 +340,134 @@ Skip the judgment tab in review mode. Never say which multiple, statistic or adj
 - Present a single unlabeled "premium" or "discount".
 - Continue past a failed C1, C2 or C3 without the student's say-so.
 
+<!-- CORE:BEGIN -->
+## Stack conventions (v1, shared by every skill in this stack)
+
+*These rules are the same in every skill of this stack. Where this skill's own rules are stricter,
+follow this skill's rules.*
+
+**S1. Source_Log is the only list of sources.** Use a document only if it has a row in the Source_Log
+with a Source ID (`S1`, `S2`, ... as the template writes them). Columns:
+`A Source ID | B Exhibit | C Date | D Source document | E Official URL | F Why this source matters | G Kind | H Read status | I Open check`.
+If the assignment gives a Source_Log, that list is it: do not renumber it. If it has only columns A to
+F, add G to I. Add a row only when the student approves, and give the reason in column F. Pages used
+only to find documents (an IR listing, an EDGAR filing index) need no row and are never cited.
+
+**S2. Allowed kinds of source (column G).** A skill may allow fewer kinds than this; it never allows more.
+
+| Kind | Source | Condition |
+|---|---|---|
+| A | The company's SEC filings: 10-K, 10-Q, 8-K and its exhibits (an earnings release filed as Exhibit 99.1), proxy statement | Cite the Item, heading and page as printed |
+| B | Documents on the company's own investor relations site: earnings releases, slides, transcripts (only if the company posts them), shareholder letters | The company's official domain, or a file that an official IR page links to directly on one of the IR site's file hosts (for example `s2.q4cdn.com`); name the linking IR page in column F |
+| C | The company's official blog or newsroom | Record the date and the URL |
+| D | Market data: share price, share count, risk-free rate, beta, credit spread | Provider and as-of date required; typed or approved by the student; used only in market-data cells (Market_Data, WACC, multiples) |
+| E | A peer company's kind A or B documents | Same conditions as A and B |
+| X | A document the assignment itself hands out that fits none of the above (for example a synthetic case packet) | Allowed because the assignment says so; say so in column F |
+
+Never a source: news articles, analyst reports, financial numbers from data sites, third-party
+transcripts, a web search result, your memory or training data. A search result may only point you to
+an official document, which then needs its own Source_Log row before you use it.
+
+**S3. Prove you opened it, from the real text.** Before you use anything from a document, copy one
+identifying line from it into column I: for a filing with a cover page (10-K, 10-Q, 8-K), the fiscal
+period and the Commission File Number; for anything else (an Exhibit 99.1 release, slides, a post), the
+title and the date as printed, or, if no date is printed, the date from the page's metadata marked
+`(metadata)`, or, if there is neither, the title and `no date printed`. The open check and every quote
+must come from the document's actual text: a file the student uploaded, a web tool that returns the
+page's text, or a rendered image of the page. **A tool that returns a summary or a rewording is not
+reading the document**; use it only to find links, never for an open check, a quote, an excerpt or a
+claim about what a document says. Never describe a document you have not opened. Column H is exactly
+one of:
+
+- `LISTED`: in the log, not opened yet.
+- `OPENED`: opened and open check copied; not yet read for evidence.
+- `FULL`: read to the end.
+- `PARTIAL: <sections read>`: only those sections were read.
+- `NOT PROVIDED`: could not be opened or was not given.
+- `NOT AVAILABLE`: the company does not publish this kind of document (for example no call transcript).
+
+Read long documents in parts until the end. Never quote or use a section you did not read.
+
+**S4. Citations.** Every number and quote carries its Source ID and location:
+`S1, Item 7 > Results of Operations > Streaming Revenues, p. 22`. For a call, give the speaker and the
+section. A Source ID is cited only for what that document itself prints, including the comparative
+periods it shows. A quote is one continuous span: no ellipses, no inserted or bracketed words. If an
+Evidence_Pack exists, also give the Excerpt ID (`E014`), and the quote must match that excerpt word for word.
+
+**S5. Evidence_Pack.** A companion file, `Evidence_Pack.xlsx`, holds verbatim excerpts so that later
+steps do not re-read whole documents. Tab `Excerpts`:
+`A Excerpt ID (E001...) | B Source ID | C Location | D Verbatim text | E Topic tags | F Used by`.
+Column D is one continuous span copied exactly (at most about 200 words), or one table copied as printed
+with its title, units and column headers. No ellipses, no paraphrase, no numbers of your own. In a
+Markdown table, write a table excerpt's cells separated by `\|` and its rows separated by `<br>`.
+Tab `Coverage`: `Source ID | Sections read | Sections not read | Note`.
+
+**S6. Labels. Use exactly one per cell, spelled exactly like this.**
+
+- Gaps: `NOT DISCLOSED` (text: the document does not say it), `NOT FOUND` (a number: you looked and it
+  is not there), `NOT PROVIDED` (the document or section was not given to you), `NOT AVAILABLE` (the
+  company does not publish it), `N/A` (does not apply), `—` (not needed). Always say where you looked.
+- Checks: `PASS`, `FAIL`, `NOT RUN` (it needs something not available; say what). A quote that could
+  not be checked because its document was not available is `UNVERIFIED`.
+- Where a value came from: `FACT` (copied as printed from a Source_Log document), `STUDENT-INPUT`
+  (typed by the student, for example market data, with provider and as-of date), `DERIVED` (computed
+  from other cells, formula shown), `ASSUMPTION` (a modeling choice), `OPEN` (not filled yet), `CHECK`
+  (a value shown only to sanity-check a formula; it never feeds the model).
+- Evidence rows (Fact_Bank and similar): `FACT` (directly stated in a Source_Log document),
+  `PROXY` (not directly disclosed; give the formula and the denominator; a disclosed number is never a
+  PROXY), `ASSUMPTION` (a modeling choice), `INFERENCE` (a conclusion drawn from evidence).
+  Management guidance is a FACT only as "management said X", never as "X will happen". A KPI marked
+  `DISCLOSED` means the same as `FACT`.
+
+**S7. IDs.** `S#` source, `E###` excerpt, `BP-##` Blueprint evidence, `K-##` KPI, `F##` fact (as the
+templates write it). In a shared Checks tab, prefix each check with the skill code:
+`SP` source-pack, `BB` business-blueprint, `RD` ratio-dashboard, `CB` capex-bridge,
+`FB` forecast-bridge, `DV` dcf-valuation, `CP` comps-pack, `CA` company-analysis (for example `RD.A2`).
+
+**S8. The student decides and writes.** Cells marked `STUDENT` (yellow fill) belong to the student:
+never fill them and never draft text for them, even if asked. A cell that depends on a blank decision
+shows `WAITING FOR STUDENT DECISION`. You may list evidence, ranges and what would falsify a view;
+point estimates, memos and conclusions are the student's.
+
+**S9. You are not the calculator.** Every computed cell is an Excel formula that references other
+cells. Never type a number into a formula, never link to another workbook, and copy inputs exactly as
+printed.
+
+**S10. Two modes of running.**
+
+- **Standalone** (one lab): output in this skill's own lab format. If the lab's workbook comes with a
+  Source_Log, use its IDs. If there is none, start one with a row per document you were given
+  (S1, S2, ...) as the first tab of your workbook.
+- **Stack** (final project): the workbook is the final project workbook (it has the tabs in the table
+  below), or the student says so. Use its Source_Log IDs and never renumber. Write only the tabs this
+  skill owns; read the others, never edit them. Add this skill's checks to a `Checks` tab at the end
+  of the workbook (create it if missing), with the prefix from S7. If any earlier skill's check in
+  that tab says `FAIL`, stop and say which one.
+- **If you cannot edit the workbook**, give every row or tab you would write as a Markdown table with
+  its tab name and cell addresses, for the student to paste.
+
+| Final workbook tab | Owner | What the owner does |
+|---|---|---|
+| Source_Log (+ Evidence_Pack.xlsx) | SP | Lists, opens and excerpts the sources |
+| Segment_Engine, KPI_Spine | BB | Fills from quoted evidence |
+| Hist_IS, Hist_BS, Hist_CF | student | RD checks sources and articulation; never types values |
+| Hist_Segments | student | FB checks sources and totals; never types values |
+| Hist_Drivers | RD (growth, margins), CB (reinvestment, invested capital, ROIC) | Checks the formulas |
+| Fact_Bank, Driver_Tree, Forecast_Assumptions, Forecast_Model, Continuing_Value_Note | FB | Evidence, ranges and checks; point estimates and the note are STUDENT |
+| Market_Data, WACC, DCF, Sensitivity | DV | Mechanics and checks; market data is STUDENT-INPUT |
+| Multiples (and its `CP_` support tabs) | CP | Comps mechanics; choices are STUDENT |
+| Prompt_Log, Checks | CA | Collects each skill's audit trail; runs the gate |
+<!-- CORE:END -->
+
 ## Test log
 
 *For human readers: the history of this file. Not instructions; ignore this section when running the
 skill.*
+
+**2026-10-16. Joined the skill stack.** Rule 1 now names the 10-Ks in the Source_Log (target kind A,
+peers kind E, market data kind D); sources carry Source IDs; a "Stack mode" section writes the
+Multiples cross-check into the final workbook and checks lease consistency with the DCF; the shared
+stack conventions were added.
 
 **No runs yet.** Planned: (1) review mode on the Lab 4 Apple comps memo, run cold by a separate AI
 session given only this file, the workbook and the memo numbers; (2) build mode on a new target and peer

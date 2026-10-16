@@ -1,0 +1,5 @@
+# Local reference material only (course files, large datasets). Never commit.
+Add_Info/
+add_info/
+
+.DS_Store

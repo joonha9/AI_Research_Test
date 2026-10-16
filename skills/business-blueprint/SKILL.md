@@ -1,3 +1,8 @@
+---
+name: business-blueprint
+description: Build or review a Lab 1 business-familiarization workbook from a company's 10-K - warm-up, Business Model Blueprint, KPI Spine Ledger, fluency-trap stress test and audit trail - with every claim a verbatim quote with its Source ID and location. In the final project it fills Segment_Engine and KPI_Spine from the shared Source_Log. It never writes the report or fills the student's cells.
+---
+
 # Business Blueprint (Lab 1)
 
 This skill helps a student learn a public company's business from its 10-K and turn it into an
@@ -14,31 +19,36 @@ It has two modes:
 
 If the user does not say which mode, ask.
 
-## Rule 1: The 10-K is the only source
+## Rule 1: Only the Source_Log; in Lab 1, only the 10-K
 
-- **Use only the 10-K the user gives you:** Item 1, Item 1A, Item 7, and the financial statements,
-  footnotes and segment tables inside the same 10-K. Never use your memory or training data, a web search, a data site, an
-  earnings call, a news article, or another year's filing, even if you think you know the answer.
+The stack conventions at the end of this file apply throughout. This rule is narrower than them.
+
+- **Lab 1 (standalone mode): the 10-K is the only source.** Use only the 10-K the user gives you:
+  Item 1, Item 1A, Item 7, and the financial statements, footnotes and segment tables inside the same
+  10-K. It is row `S1` of the Source_Log (kind A), which you start in Step 0. Never use your memory or
+  training data, a web search, a data site, an earnings call, a news article, or another year's filing,
+  even if you think you know the answer.
+- **Final project (stack mode):** you may also use the other kind A and B documents already in the
+  workbook's Source_Log (a 10-Q, an earnings release), and nothing outside it. The web and your memory
+  are still off limits.
+- **Every quote carries its Source ID** as well as its location (Rule 2).
 - **No outside facts.** No competitor names, market sizes, market shares or industry statistics
   unless the 10-K itself states them, and then only as a quote.
 - **If you cannot open the document, say so and stop.** If the chat cannot read the whole 10-K, ask
-  for Item 1, Item 1A, Item 7, the segment note and the revenue note.
+  for Item 1, Item 1A, Item 7, the segment note and the revenue note, and record what you read in
+  Source_Log column H (`PARTIAL: ...`).
 - **Be honest about gaps. Use exactly one of these labels:**
   - `NOT DISCLOSED`: the 10-K you have does not say it. Say where you looked and what to verify next.
   - `NOT PROVIDED`: the section that would hold it was not given to you (for example, only Item 1
     was pasted). Ask for it.
   - `N/A`: it does not apply to this business.
-- **Final project exception.** Only if the user says they are filling the final project template
-  with an approved source log may they give you other official exhibits (a 10-Q, an earnings
-  release). Every quote then carries that exhibit's source ID as well as its location. The web and
-  your memory are still off limits.
 
 ## Rule 2: Evidence and interpretation never share a cell
 
 - **Evidence is a verbatim quote:** one continuous span of at most 40 words, copied exactly. No
   ellipses, no edits, no paraphrase. If you need two spans, use two rows.
-- **Every quote has a location:** the Item number, the heading as printed, and the page if visible.
-  Example: `Item 7 > Results of Operations > Streaming Revenues, p. 22`.
+- **Every quote has a location:** the Source ID, the Item number, the heading as printed, and the page
+  if visible. Example: `S1, Item 7 > Results of Operations > Streaming Revenues, p. 22`.
 - **Find the quote before you write it.** Search the text for it. Mark the quote check `MATCH` only
   if you found it word for word; otherwise it does not go in the workbook.
 - **Interpretation goes only in interpretation columns.** Words like "suggests", "implies" or
@@ -74,17 +84,25 @@ every use of these words in the workbook.
 
 ## The workbook
 
-Seven tabs, in this order. In the data tabs (Blueprint, KPI_Spine, Audit_Trail, Checks), row 1 holds
+Eight tabs, in this order. In the data tabs (Blueprint, KPI_Spine, Audit_Trail, Checks), row 1 holds
 the headers and data starts in row 2. **Keep the column letters exactly as given**, because the
 Checks formulas depend on them.
 
 **If you can create files**, build an .xlsx: yellow fill on `STUDENT` cells, wrapped text, a frozen
 header row, readable column widths. If the user has the blank template
-(`assets/business_blueprint_template.xlsx`), fill that instead. It comes with one Blueprint row per
-field, six KPI rows and four prompt rows already marked `STUDENT`; add rows by copying one, and
-delete template rows that stay unused so K1 can reach zero. **If you cannot create files**, give
-each tab as a Markdown table under a heading with the tab name, in order. The user copies each
-rendered table into cell A1 of a sheet with that name. Give the Checks formulas as text.
+(`assets/business_blueprint_template.xlsx`), fill that instead, adding a `Source_Log` tab in front if
+it has none. It comes with one Blueprint row per field, six KPI rows and four prompt rows already
+marked `STUDENT`; add rows by copying one, and delete template rows that stay unused so K1 can reach
+zero. **If you cannot create files**, give each tab as a Markdown table under a heading with the tab
+name, in order. The user copies each rendered table into cell A1 of a sheet with that name. Give the
+Checks formulas as text.
+
+In stack mode you do not build this workbook; see "Stack mode (final project)" below.
+
+### Tab 0: `Source_Log`
+
+Columns A to I as in stack convention S1. In Lab 1 it has one row: `S1`, the 10-K, kind `A`, its read
+status, and the open check (the fiscal year and Commission File Number from the cover page).
 
 ### Tab 1: `Inputs`
 
@@ -163,7 +181,9 @@ are listed in Step 7.
 3. Mode. If the user already has a workbook, ask them to paste it with the tab names and column
    letters, so your rows line up.
 
-Fill the `Inputs` tab. Take the filing date and fiscal year from the 10-K cover page, not from memory.
+Start the `Source_Log` (row `S1`) and fill the `Inputs` tab. Take the filing date and fiscal year from
+the 10-K cover page, not from memory. If the user's workbook already has a Source_Log with the final
+project tabs, you are in stack mode: use its Source IDs and go to "Stack mode (final project)".
 
 ## Step 1: Warm-up (Lab Part A)
 
@@ -285,7 +305,8 @@ Manual checks (you run them and write PASS or FAIL with a one-line note):
 - **M2** Every number is as printed, and every sum, share and percentage anywhere in the workbook
   (including Warm_Up Block E) recomputes.
 - **M3** Fluency scan: every Rule 4 word in Blueprint G and I, Warm_Up Block B and KPI_Spine, by row.
-- **M4** Scope: nothing from outside the 10-K; the warm-up answered only what was asked.
+- **M4** Scope: nothing from outside the Source_Log (in Lab 1, the 10-K); the warm-up answered only
+  what was asked.
 - **M5** Every engine has all seven fields (K4 only checks that each field has evidence somewhere).
 - **M6** The persuasive rewrite added no new facts.
 
@@ -293,9 +314,14 @@ Manual checks (you run them and write PASS or FAIL with a one-line note):
 three quotes from different Items for the student to check against the 10-K themselves. Do not write
 the report.
 
-## Final project mapping (only if the user asks)
+## Stack mode (final project)
 
-The Blueprint and KPI_Spine tabs feed the final project template:
+Use this when the user's workbook already has a Source_Log and the final project tabs. You own
+`Segment_Engine` and `KPI_Spine` (stack convention S10): write there directly instead of building the
+Lab 1 workbook. Rules 1 to 4 still apply, and Steps 2 to 4 still run, with their STOPs. Every cell you
+fill cites a Source ID; if an Evidence_Pack exists, quote from its excerpts and give the Excerpt ID.
+
+Put the Lab 1 columns into the final tabs like this:
 
 | This workbook | Final template |
 |---|---|
@@ -307,7 +333,9 @@ The Blueprint and KPI_Spine tabs feed the final project template:
 | Blueprint rows for Constraints / risks, plus Verify next | Segment_Engine: Risk / falsifier |
 | KPI_Spine B, C, D, E, F, G, I | KPI_Spine: KPI / proxy, Definition, Disclosed or proxy?, Source ID, Controls, Forecast knob, Keep / replace? |
 
-Carry the Evidence IDs across so every template cell still points to a quote.
+Carry the Evidence IDs across so every template cell still points to a quote. The K formula checks
+belong to the Lab 1 workbook and do not apply here. Run M1, M2, M4 and M5 on what you wrote and add
+them to the workbook's `Checks` tab as `BB.M1`, `BB.M2`, `BB.M4`, `BB.M5`.
 
 ## Review mode
 
@@ -356,7 +384,8 @@ presentation 20.
 
 - [ ] Every quote is verbatim, at most 40 words, one span, with an Item location, and was found in
       the text.
-- [ ] Nothing came from outside the 10-K. Every gap is labelled `NOT DISCLOSED`, `NOT PROVIDED` or `N/A`.
+- [ ] Nothing came from outside the Source_Log (in Lab 1, the 10-K). Every quote has its Source ID.
+      Every gap is labelled `NOT DISCLOSED`, `NOT PROVIDED` or `N/A`.
 - [ ] No interpretation in a quote column; interpretations use the weakest wording the evidence supports.
 - [ ] Every engine has all seven Blueprint fields; who pays and who uses are both filled.
 - [ ] Six to eight KPI candidates, each `DISCLOSED` with the company's definition or `PROXY` with a
@@ -368,7 +397,8 @@ presentation 20.
 
 ## Never
 
-- Use a source other than the 10-K: not memory, not the web, not a data site.
+- Use a document that is not in the Source_Log (in Lab 1, anything but the 10-K): not memory, not
+  the web, not a data site.
 - Put a paraphrase in a quote column, or a quote you did not find in the text.
 - Present a `GENERAL` definition as what the company says.
 - Invent a KPI definition, or merge two metrics into one.
@@ -378,6 +408,125 @@ presentation 20.
 - Add facts, numbers or names when rewriting for persuasiveness.
 - Write a valuation conclusion (undervalued, buy, fair value).
 
+<!-- CORE:BEGIN -->
+## Stack conventions (v1, shared by every skill in this stack)
+
+*These rules are the same in every skill of this stack. Where this skill's own rules are stricter,
+follow this skill's rules.*
+
+**S1. Source_Log is the only list of sources.** Use a document only if it has a row in the Source_Log
+with a Source ID (`S1`, `S2`, ... as the template writes them). Columns:
+`A Source ID | B Exhibit | C Date | D Source document | E Official URL | F Why this source matters | G Kind | H Read status | I Open check`.
+If the assignment gives a Source_Log, that list is it: do not renumber it. If it has only columns A to
+F, add G to I. Add a row only when the student approves, and give the reason in column F. Pages used
+only to find documents (an IR listing, an EDGAR filing index) need no row and are never cited.
+
+**S2. Allowed kinds of source (column G).** A skill may allow fewer kinds than this; it never allows more.
+
+| Kind | Source | Condition |
+|---|---|---|
+| A | The company's SEC filings: 10-K, 10-Q, 8-K and its exhibits (an earnings release filed as Exhibit 99.1), proxy statement | Cite the Item, heading and page as printed |
+| B | Documents on the company's own investor relations site: earnings releases, slides, transcripts (only if the company posts them), shareholder letters | The company's official domain, or a file that an official IR page links to directly on one of the IR site's file hosts (for example `s2.q4cdn.com`); name the linking IR page in column F |
+| C | The company's official blog or newsroom | Record the date and the URL |
+| D | Market data: share price, share count, risk-free rate, beta, credit spread | Provider and as-of date required; typed or approved by the student; used only in market-data cells (Market_Data, WACC, multiples) |
+| E | A peer company's kind A or B documents | Same conditions as A and B |
+| X | A document the assignment itself hands out that fits none of the above (for example a synthetic case packet) | Allowed because the assignment says so; say so in column F |
+
+Never a source: news articles, analyst reports, financial numbers from data sites, third-party
+transcripts, a web search result, your memory or training data. A search result may only point you to
+an official document, which then needs its own Source_Log row before you use it.
+
+**S3. Prove you opened it, from the real text.** Before you use anything from a document, copy one
+identifying line from it into column I: for a filing with a cover page (10-K, 10-Q, 8-K), the fiscal
+period and the Commission File Number; for anything else (an Exhibit 99.1 release, slides, a post), the
+title and the date as printed, or, if no date is printed, the date from the page's metadata marked
+`(metadata)`, or, if there is neither, the title and `no date printed`. The open check and every quote
+must come from the document's actual text: a file the student uploaded, a web tool that returns the
+page's text, or a rendered image of the page. **A tool that returns a summary or a rewording is not
+reading the document**; use it only to find links, never for an open check, a quote, an excerpt or a
+claim about what a document says. Never describe a document you have not opened. Column H is exactly
+one of:
+
+- `LISTED`: in the log, not opened yet.
+- `OPENED`: opened and open check copied; not yet read for evidence.
+- `FULL`: read to the end.
+- `PARTIAL: <sections read>`: only those sections were read.
+- `NOT PROVIDED`: could not be opened or was not given.
+- `NOT AVAILABLE`: the company does not publish this kind of document (for example no call transcript).
+
+Read long documents in parts until the end. Never quote or use a section you did not read.
+
+**S4. Citations.** Every number and quote carries its Source ID and location:
+`S1, Item 7 > Results of Operations > Streaming Revenues, p. 22`. For a call, give the speaker and the
+section. A Source ID is cited only for what that document itself prints, including the comparative
+periods it shows. A quote is one continuous span: no ellipses, no inserted or bracketed words. If an
+Evidence_Pack exists, also give the Excerpt ID (`E014`), and the quote must match that excerpt word for word.
+
+**S5. Evidence_Pack.** A companion file, `Evidence_Pack.xlsx`, holds verbatim excerpts so that later
+steps do not re-read whole documents. Tab `Excerpts`:
+`A Excerpt ID (E001...) | B Source ID | C Location | D Verbatim text | E Topic tags | F Used by`.
+Column D is one continuous span copied exactly (at most about 200 words), or one table copied as printed
+with its title, units and column headers. No ellipses, no paraphrase, no numbers of your own. In a
+Markdown table, write a table excerpt's cells separated by `\|` and its rows separated by `<br>`.
+Tab `Coverage`: `Source ID | Sections read | Sections not read | Note`.
+
+**S6. Labels. Use exactly one per cell, spelled exactly like this.**
+
+- Gaps: `NOT DISCLOSED` (text: the document does not say it), `NOT FOUND` (a number: you looked and it
+  is not there), `NOT PROVIDED` (the document or section was not given to you), `NOT AVAILABLE` (the
+  company does not publish it), `N/A` (does not apply), `—` (not needed). Always say where you looked.
+- Checks: `PASS`, `FAIL`, `NOT RUN` (it needs something not available; say what). A quote that could
+  not be checked because its document was not available is `UNVERIFIED`.
+- Where a value came from: `FACT` (copied as printed from a Source_Log document), `STUDENT-INPUT`
+  (typed by the student, for example market data, with provider and as-of date), `DERIVED` (computed
+  from other cells, formula shown), `ASSUMPTION` (a modeling choice), `OPEN` (not filled yet), `CHECK`
+  (a value shown only to sanity-check a formula; it never feeds the model).
+- Evidence rows (Fact_Bank and similar): `FACT` (directly stated in a Source_Log document),
+  `PROXY` (not directly disclosed; give the formula and the denominator; a disclosed number is never a
+  PROXY), `ASSUMPTION` (a modeling choice), `INFERENCE` (a conclusion drawn from evidence).
+  Management guidance is a FACT only as "management said X", never as "X will happen". A KPI marked
+  `DISCLOSED` means the same as `FACT`.
+
+**S7. IDs.** `S#` source, `E###` excerpt, `BP-##` Blueprint evidence, `K-##` KPI, `F##` fact (as the
+templates write it). In a shared Checks tab, prefix each check with the skill code:
+`SP` source-pack, `BB` business-blueprint, `RD` ratio-dashboard, `CB` capex-bridge,
+`FB` forecast-bridge, `DV` dcf-valuation, `CP` comps-pack, `CA` company-analysis (for example `RD.A2`).
+
+**S8. The student decides and writes.** Cells marked `STUDENT` (yellow fill) belong to the student:
+never fill them and never draft text for them, even if asked. A cell that depends on a blank decision
+shows `WAITING FOR STUDENT DECISION`. You may list evidence, ranges and what would falsify a view;
+point estimates, memos and conclusions are the student's.
+
+**S9. You are not the calculator.** Every computed cell is an Excel formula that references other
+cells. Never type a number into a formula, never link to another workbook, and copy inputs exactly as
+printed.
+
+**S10. Two modes of running.**
+
+- **Standalone** (one lab): output in this skill's own lab format. If the lab's workbook comes with a
+  Source_Log, use its IDs. If there is none, start one with a row per document you were given
+  (S1, S2, ...) as the first tab of your workbook.
+- **Stack** (final project): the workbook is the final project workbook (it has the tabs in the table
+  below), or the student says so. Use its Source_Log IDs and never renumber. Write only the tabs this
+  skill owns; read the others, never edit them. Add this skill's checks to a `Checks` tab at the end
+  of the workbook (create it if missing), with the prefix from S7. If any earlier skill's check in
+  that tab says `FAIL`, stop and say which one.
+- **If you cannot edit the workbook**, give every row or tab you would write as a Markdown table with
+  its tab name and cell addresses, for the student to paste.
+
+| Final workbook tab | Owner | What the owner does |
+|---|---|---|
+| Source_Log (+ Evidence_Pack.xlsx) | SP | Lists, opens and excerpts the sources |
+| Segment_Engine, KPI_Spine | BB | Fills from quoted evidence |
+| Hist_IS, Hist_BS, Hist_CF | student | RD checks sources and articulation; never types values |
+| Hist_Segments | student | FB checks sources and totals; never types values |
+| Hist_Drivers | RD (growth, margins), CB (reinvestment, invested capital, ROIC) | Checks the formulas |
+| Fact_Bank, Driver_Tree, Forecast_Assumptions, Forecast_Model, Continuing_Value_Note | FB | Evidence, ranges and checks; point estimates and the note are STUDENT |
+| Market_Data, WACC, DCF, Sensitivity | DV | Mechanics and checks; market data is STUDENT-INPUT |
+| Multiples (and its `CP_` support tabs) | CP | Comps mechanics; choices are STUDENT |
+| Prompt_Log, Checks | CA | Collects each skill's audit trail; runs the gate |
+<!-- CORE:END -->
+
 ## Test log
 
 *For human readers: the history of this file. Not instructions; ignore this section when running
@@ -385,3 +534,8 @@ the skill.*
 
 **2026-10-07. v0.1 drafted** from the Lab 1 instructions and my own Netflix Lab 1 write-up
 (see `references/worked_example.md`). Not yet tested.
+
+**2026-10-16. v0.2, joined the skill stack.** Rule 1 now names the Source_Log (Lab 1: the 10-K as
+`S1`); quotes carry Source IDs; a `Source_Log` tab comes first; "Final project mapping" became
+"Stack mode", which writes into Segment_Engine and KPI_Spine; the shared stack conventions were added.
+Not yet tested.
