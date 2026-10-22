@@ -274,7 +274,7 @@ const PROFILE = {
   // GitHub username and repository. These turn on "Copy prompt", the skill links and the sources.
   githubUser: "joonha9",
   repo: "AI_Research_Test",
-  lastUpdated: "October 16, 2026"
+  lastUpdated: "October 22, 2026"
 };
 
 // =====================================================================
@@ -350,13 +350,13 @@ const SKILLS = [
     name: "dcf-valuation",
     title: "DCF valuation",
     lab: "Final project",
-    status: "planned",
+    status: "testing",
     short: "WACC, terminal value, bridge",
-    whatItDoes: "Will build the discount rate, continuing value, the bridge from enterprise value to equity value, and the sensitivity tables, and check that debt and leases are treated the same way in each.",
-    inputs: "The forecast and student-typed market data",
-    outputs: "Market_Data, WACC, DCF, Sensitivity",
-    never: [],
-    testNote: ""
+    whatItDoes: "Builds or checks the valuation core: a market-value WACC, continuing value from terminal growth and the return on new capital, the bridge from enterprise value to value per share, and sensitivity tables that recompute the whole value. Its central check is a claims map that proves every debt and lease claim is treated the same way everywhere, so nothing is counted twice.",
+    inputs: "A finished forecast, the latest 10-K, and market data the student types with provider and date",
+    outputs: "Market_Data, WACC, DCF, Sensitivity and a claims map, with each problem's effect on value per share",
+    never: ["Looks up a share price, beta or interest rate", "Chooses terminal growth, RONIC or the lease treatment", "Counts a claim in both invested capital and the bridge", "Says the stock is cheap or expensive"],
+    testNote: "Reviewing my own final project, it found all 14 problems I had listed, including leases counted twice, plus two I had missed. On a synthetic company it matched my hand calculation to the cent."
   },
   {
     name: "comps-pack",
@@ -401,6 +401,20 @@ const RULES = [
 // Newest first. flags = what the run caught. fix = what I changed.
 // =====================================================================
 const AUDIT = [
+  {
+    when: "Oct 2026",
+    skill: "dcf-valuation",
+    title: "Review of my final project, a synthetic company, and a market-data trap",
+    summary: "I checked the review against Amazon's FY2025 10-K and the synthetic case against my own calculation.",
+    flags: [
+      "Found all 14 problems I had listed in my Amazon valuation, with each one's effect on value per share.",
+      "Showed that my lease liabilities were counted twice: netted inside invested capital and subtracted again in the bridge and the WACC.",
+      "Found two problems I had missed: non-operating investments entered at $23.7B where the 10-K reports about $60B, and a depreciation add-back that included content and lease amortization (about $15 a share).",
+      "Showed that my sensitivity table reused the base-case value of the forecast years at every discount rate.",
+      "On a synthetic company it matched my hand calculation exactly ($10.18 a share) and caught all three traps; asked to look up a beta, it declined."
+    ],
+    fix: "Version 0.2 settles how to discount continuing value under each convention, shows effects under each lease treatment, and adds STOPs for every input the student owns."
+  },
   {
     when: "Oct 2026",
     skill: "capex-bridge",
@@ -583,7 +597,7 @@ AUDIT.forEach(function (a) {
   tr.appendChild(td);
   rows.appendChild(tr);
 });
-sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["each skill's test log", "skills"]]);
+sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["tests/dcf-valuation", "tests/dcf-valuation/README.md"], ["each skill's test log", "skills"]]);
 
 // ----- Modal -----
 const modal = document.getElementById("modal");
