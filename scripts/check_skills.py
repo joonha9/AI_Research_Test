@@ -90,6 +90,15 @@ def main():
         elif match.group(0) != core:
             problems.append(f"{rel}: conventions CORE block differs from conventions.md (run with --sync)")
 
+    # company-analysis proves it loaded a skill by finding the conventions heading; keep them in sync.
+    heading = re.search(r"^## (Stack conventions .*)$", core, re.M)
+    ca = ROOT / "skills" / "company-analysis" / "SKILL.md"
+    if heading and ca.exists():
+        ca_text = " ".join(BLOCK_RE.sub("", ca.read_text(encoding="utf-8")).split())
+        if " ".join(heading.group(1).split()) not in ca_text:
+            problems.append("skills/company-analysis/SKILL.md: its load check does not quote the current "
+                            f"conventions heading {heading.group(1)!r}")
+
     for name, template in live_skills_from_site():
         skill_dir = ROOT / "skills" / name
         if not (skill_dir / "SKILL.md").exists():

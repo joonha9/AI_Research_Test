@@ -58,6 +58,11 @@ a:hover { color: var(--steel); }
 .cover .links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: -22px 0 40px; padding: 0; list-style: none; font-size: 15px; }
 
 /* Key terms table, as on a pitch book summary page */
+/* Start-here box: one prompt runs the whole stack */
+.start { max-width: 760px; margin: 0 0 40px; padding: 18px 22px; border: 1px solid var(--navy); border-left-width: 4px; }
+.start h2 { font-size: 20px; margin: 0 0 6px; }
+.start p { margin: 0 0 14px; color: var(--muted); font-size: 15px; max-width: 40em; }
+.start .m-actions { margin: 0; }
 .terms { width: 100%; max-width: 760px; border-collapse: collapse; font-size: 15px; }
 .terms th, .terms td { text-align: left; vertical-align: top; padding: 11px 0; border-bottom: 1px solid var(--rule); }
 .terms tr:first-child th, .terms tr:first-child td { border-top: 2px solid var(--navy); }
@@ -191,6 +196,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 6px 24px; justify-content: s
     <h1>A skill stack for company valuation</h1>
     <p class="intro" id="cover-intro"></p>
     <ul class="links" id="cover-links"></ul>
+    <div class="start" id="start-here" hidden></div>
     <table class="terms" id="terms"></table>
   </div>
 
@@ -377,12 +383,12 @@ const ORCHESTRATOR = {
   name: "company-analysis",
   title: "Company analysis",
   lab: "Final project",
-  status: "planned",
-  short: "Runs the steps in order and stops at any failed check",
-  whatItDoes: "Will run the steps in order, hand each one's tabs to the next, stop when an earlier check fails, collect the prompt log, and check that every number in the report matches the workbook. It packages the whole stack as one installable plugin.",
-  inputs: "The final project workbook",
-  outputs: "Checks and Prompt_Log",
-  never: [],
+  status: "building",
+  short: "Start here: one link loads the right skill, runs the steps in order and stops at any failed check",
+  whatItDoes: "The single entry point. It reads what the student wants, opens the right skill file and proves it was loaded, works out from the workbook which step comes next, stops when an earlier check failed, and gives the exact prompt for the next chat. At the end it ties every number in the report to the workbook. It does no analysis of its own.",
+  inputs: "The student's request and whatever files they have (workbook, documents, report)",
+  outputs: "A status table, the next skill loaded, the hand-off prompt, Prompt_Log rows and the report tie-out",
+  never: ["Works from a summary of a skill instead of the file", "Starts a step while an earlier check fails", "Does a skill's work itself", "Writes the report or picks an input"],
   testNote: ""
 };
 
@@ -538,6 +544,19 @@ const terms = document.getElementById("terms");
   .forEach(function (r) {
     const tr = el("tr"); tr.appendChild(el("th", "", r[0])); tr.lastChild.scope = "row"; tr.appendChild(el("td", "", r[1])); terms.appendChild(tr);
   });
+
+// ----- Start here (shown once company-analysis is usable) -----
+const startBox = document.getElementById("start-here");
+if ((ORCHESTRATOR.status === "live" || ORCHESTRATOR.status === "testing") && repoReady) {
+  startBox.hidden = false;
+  startBox.appendChild(el("h2", "", "Start here"));
+  startBox.appendChild(el("p", "", "Paste one prompt into Claude or ChatGPT, attach your files, and say what you are working on: a lab or the final project. It loads the right skill, checks where you are, and gives you the prompt for the next step."));
+  const box = el("div", "m-actions");
+  const btn = el("button", "copy", "Copy the start prompt"); btn.type = "button";
+  btn.addEventListener("click", function () { copyText(promptFor(ORCHESTRATOR.name), btn, "Copy the start prompt"); });
+  box.appendChild(btn);
+  startBox.appendChild(box);
+}
 
 // ----- Process flow -----
 const bandTop = document.getElementById("band-top");
