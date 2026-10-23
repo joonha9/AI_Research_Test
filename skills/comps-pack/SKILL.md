@@ -108,8 +108,9 @@ you also need the prior year's value, which the same 10-K prints as the comparat
 
 Lease and investment lines often sit in notes, not on the face of the balance sheet. If they are not in
 the text given to you, mark `NOT PROVIDED` and ask for the note. **A zero is a claim.** Write `0` only if
-the 10-K shows zero or the item is absent, and then write `N/A` with where you looked. Never use `0` for
-"I did not find it".
+the 10-K shows zero; if the item is absent, write `N/A` with where you looked. Never use `0` for
+"I did not find it". An amount the student excludes by a decision (for example operating leases when
+D4 is No) keeps its value in Inputs and shows `excluded per D4` in the bridge row, not `0`.
 
 After filling Inputs, list three values for the student to check against the 10-K themselves (from
 different companies and statements).
@@ -270,7 +271,11 @@ ask questions that help them write it.
 
 ## Review mode
 
-When the user pastes or uploads a workbook (and optionally the numbers from their memo), do this in order:
+When the user pastes or uploads a workbook (and optionally the numbers from their memo), do this in order.
+If there is only the memo, treat its tables as the workbook: put the memo location in place of the cell,
+recompute every figure as a `CHECK`, and mark checks that need the 10-Ks `NOT RUN`. In Review mode the
+multiples already exist, so after a FAIL of C1, C2 or C3 continue the review and label the later
+findings provisional.
 
 1. Step 0 briefly (companies, units, market data dates). If the user gives the 10-Ks, check their Inputs
    against them; otherwise list unsourced or missing inputs.
@@ -471,6 +476,12 @@ peers kind E, market data kind D); sources carry Source IDs; a "Stack mode" sect
 Multiples cross-check into the final workbook and checks lease consistency with the DCF; the shared
 stack conventions were added.
 
-**No runs yet.** Planned: (1) review mode on the Lab 4 Apple comps memo, run cold by a separate AI
+**2026-10-23. First test** (blind review of my Lab 4 memo, memo only; caught 12 of 13 known
+problems, results in `tests/comps-pack/README.md`). Changes: memo-only reviews; review continues after
+a C1 to C3 FAIL with later findings provisional; zero versus N/A versus `excluded per D4`. Note: the
+Lab 4 handout allowed an agent that draws on transcripts and Yahoo Finance; this skill is stricter on
+purpose (10-Ks only for financial numbers).
+
+Earlier plan: (1) review mode on the Lab 4 Apple comps memo, run cold by a separate AI
 session given only this file, the workbook and the memo numbers; (2) build mode on a new target and peer
 set. After each run, record what it caught, what it missed, and what was changed in this file.

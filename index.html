@@ -313,7 +313,7 @@ const SKILLS = [
     inputs: "The 10-K",
     outputs: "Blueprint, KPI_Spine, Fluency_Test, Audit_Trail; in the final project, Segment_Engine and KPI_Spine",
     never: ["Fills the student's cells", "Writes the report", "Uses anything outside the 10-K in Lab 1"],
-    testNote: "Testing in progress."
+    testNote: "Reviewing my own Lab 1 write-up, it caught all 13 problems I had listed, including an employee count the AI had misread from the 10-K, plus a quote that is not in the filing."
     // template: "assets/business_blueprint_template.xlsx",  // add back once the file is uploaded
   },
   {
@@ -374,7 +374,7 @@ const SKILLS = [
     inputs: "The 10-Ks of the target and peers; student-typed share prices",
     outputs: "Inputs, normalization, EV bridge, multiples, implied price; in the final project, Multiples",
     never: ["Picks the multiple, the peer statistic or the adjustments", "Looks up a share price", "Writes the memo or a verdict"],
-    testNote: "Testing in progress."
+    testNote: "Reviewing my own Lab 4 memo from the PDF alone, it caught 12 of the 13 problems I had listed, including an after-tax item added to pre-tax EBITDA and a premium quoted on the wrong base."
   }
 ];
 
@@ -407,6 +407,32 @@ const RULES = [
 // Newest first. flags = what the run caught. fix = what I changed.
 // =====================================================================
 const AUDIT = [
+  {
+    when: "Oct 2026",
+    skill: "comps-pack",
+    title: "Blind review of my Lab 4 memo (Apple against four peers)",
+    summary: "The run had only the memo PDF and the handout; I graded it against the memo's own numbers, recomputed by hand.",
+    flags: [
+      "An after-tax non-recurring amount from a chat-turn table had been added to pre-tax EBITDA.",
+      "Leases were entered as zero for every company, and Apple's bridge did not foot by $810M.",
+      "A negative investment sign in Microsoft's bridge contradicted the arithmetic actually used.",
+      "The conclusion called a 32.7% premium 24.6%, measuring it on the wrong base."
+    ],
+    fix: "It missed one paste artifact. Version 0.2 allows memo-only reviews and keeps reviewing after a failed source check."
+  },
+  {
+    when: "Oct 2026",
+    skill: "business-blueprint",
+    title: "Blind review of my Lab 1 write-up (Netflix)",
+    summary: "I graded the run against Netflix's FY2024 10-K myself.",
+    flags: [
+      "The AI output I had pasted said 6,600 employees in the US and Canada; the 10-K says 9,600, and I had not caught it.",
+      "Two quotes stitched separate sentences together with an ellipsis, and one quote is not in the 10-K at all.",
+      "My ARM definition merged the reported metric with its constant-currency version and called it non-GAAP.",
+      "Only four KPIs were kept where five are required, and the stress test had no corrected paragraph."
+    ],
+    fix: "Version 0.3 groups findings and caps the table at 25 rows."
+  },
   {
     when: "Oct 2026",
     skill: "company-analysis",
@@ -629,7 +655,7 @@ AUDIT.forEach(function (a) {
   tr.appendChild(td);
   rows.appendChild(tr);
 });
-sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["tests/dcf-valuation", "tests/dcf-valuation/README.md"], ["tests/company-analysis", "tests/company-analysis/README.md"], ["each skill's test log", "skills"]]);
+sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["tests/dcf-valuation", "tests/dcf-valuation/README.md"], ["tests/company-analysis", "tests/company-analysis/README.md"], ["tests/business-blueprint", "tests/business-blueprint/README.md"], ["tests/comps-pack", "tests/comps-pack/README.md"], ["each skill's test log", "skills"]]);
 
 // ----- Modal -----
 const modal = document.getElementById("modal");

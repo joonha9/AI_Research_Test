@@ -171,7 +171,8 @@ The seven field names, spelled exactly like this (the Checks formula matches the
 ### Tab 7: `Checks`
 
 `A Check ID | B What it tests | C Result | D Pass if | E Verdict`. Formula checks and manual checks
-are listed in Step 7.
+are listed in Step 7. This layout is for the Lab 1 workbook; in stack mode, checks go to the shared
+`Checks` tab in the columns of stack convention S6.
 
 ## Step 0: Set up (ask, do not assume)
 
@@ -340,13 +341,16 @@ them to the workbook's `Checks` tab as `BB.M1`, `BB.M2`, `BB.M4`, `BB.M5`.
 ## Review mode
 
 The user gives you a workbook or a Lab 1 write-up (PDF or document), and the 10-K if they have it.
-Without the 10-K you cannot check quotes: mark them `UNVERIFIED` and check everything else.
+Without the 10-K you cannot check quotes: mark them `UNVERIFIED` and check everything else. Skip Step
+0's questions you can answer from the files (company, ticker, fiscal year). Judge the submission
+against the assignment's format; the K formula checks belong to the Lab 1 workbook, so for a PDF
+write-up run M1 to M6 by hand and report them with the table.
 
 Work in this order:
 
 1. **Inventory** against the Lab 1 deliverables, missing pieces first, with the rubric points at stake:
    company, ticker and 10-K link; three self-read bullets, the LLM output and a 5 to 7 sentence
-   reflection; Blueprint (six fields, evidence and interpretation separated) and a KPI ledger with at
+   reflection; Blueprint (the six fields of the handout, with Customers split into who pays and who uses, which makes the seven field names in this file; evidence and interpretation separated) and a KPI ledger with at
    least five KPIs, each with definition, location and driver; stress test with original, persuasive
    version, at least two highlighted phrases and a corrected paragraph; the audit trail appendix with
    objective, inputs, prompts with excerpt pointers, outputs used, verification log and rejected
@@ -370,12 +374,14 @@ Work in this order:
 8. **If the user gives both a write-up draft and the workbook:** list every factual claim in the
    draft that does not trace to a workbook row.
 
-Output one table:
+Output one findings table, most serious first by rubric weight (Blueprint and KPIs before warm-up,
+stress test and audit trail), the same problem across rows in one line, at most 25 rows (list the rest
+below it by rule). Arithmetic goes inside the cells. Then a short M1 to M6 summary and what passed.
 
-`# | Section | Where | Issue | Rule | What a fix needs | Rubric criterion (points)`
+`# | Section | Where | Issue | Rule | What a fix needs | Rubric criterion (points at stake)`
 
-Say what the fix must achieve; do not rewrite the student's prose. End with the parts that passed, so
-the student sees what is already right.
+Say what the fix must achieve; do not rewrite the student's prose. Pointing to the 10-K span and
+location that would support a row is allowed; drafting the replacement text is not.
 
 Lab 1 rubric, for reference: warm-up 15, Blueprint 25, KPI ledger 20, stress test 10, audit trail 10,
 presentation 20.
@@ -534,8 +540,14 @@ printed.
 *For human readers: the history of this file. Not instructions; ignore this section when running
 the skill.*
 
-**2026-10-07. v0.1 drafted** from the Lab 1 instructions and my own Netflix Lab 1 write-up
-(see `references/worked_example.md`). Not yet tested.
+**2026-10-23. v0.3 after the first test** (blind review of my Lab 1 submission; caught all 13 known
+problems, results in `tests/business-blueprint/README.md`). Changes: Review mode skips set-up questions
+the files answer and runs M1 to M6 by hand on a PDF; the six-field and seven-field wording agrees;
+findings are ordered, grouped and capped at 25 rows; fixes may point to supporting spans but not draft
+text.
+
+**2026-10-07. v0.1 drafted** from the Lab 1 instructions and my own Netflix Lab 1 write-up. Not yet
+tested.
 
 **2026-10-16. v0.2, joined the skill stack.** Rule 1 now names the Source_Log (Lab 1: the 10-K as
 `S1`); quotes carry Source IDs; a `Source_Log` tab comes first; "Final project mapping" became
