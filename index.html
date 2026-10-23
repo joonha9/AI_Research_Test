@@ -280,7 +280,7 @@ const PROFILE = {
   // GitHub username and repository. These turn on "Copy prompt", the skill links and the sources.
   githubUser: "joonha9",
   repo: "AI_Research_Test",
-  lastUpdated: "October 22, 2026"
+  lastUpdated: "October 23, 2026"
 };
 
 // =====================================================================
@@ -383,13 +383,13 @@ const ORCHESTRATOR = {
   name: "company-analysis",
   title: "Company analysis",
   lab: "Final project",
-  status: "building",
+  status: "testing",
   short: "Start here: one link loads the right skill, runs the steps in order and stops at any failed check",
   whatItDoes: "The single entry point. It reads what the student wants, opens the right skill file and proves it was loaded, works out from the workbook which step comes next, stops when an earlier check failed, and gives the exact prompt for the next chat. At the end it ties every number in the report to the workbook. It does no analysis of its own.",
   inputs: "The student's request and whatever files they have (workbook, documents, report)",
   outputs: "A status table, the next skill loaded, the hand-off prompt, Prompt_Log rows and the report tie-out",
   never: ["Works from a summary of a skill instead of the file", "Starts a step while an earlier check fails", "Does a skill's work itself", "Writes the report or picks an input"],
-  testNote: ""
+  testNote: "Loaded the right skill from its link in every live test. Tying my final report to my workbook, it checked 192 numbers and found the mismatches I had planted plus several I had missed."
 };
 
 // The rules every skill shares (conventions.md), shown as the band below the steps
@@ -407,6 +407,19 @@ const RULES = [
 // Newest first. flags = what the run caught. fix = what I changed.
 // =====================================================================
 const AUDIT = [
+  {
+    when: "Oct 2026",
+    skill: "company-analysis",
+    title: "Four live runs of the start-here link",
+    summary: "Each run started from the one prompt a student would paste, and loaded the other skills from GitHub.",
+    flags: [
+      "Routed a Lab 3 request to capex-bridge and proved it had read the real file before following it.",
+      "Read my final workbook, built an accurate status table, and refused to call the project done without checks.",
+      "In a chat with no web access, said so instead of guessing what the skill says.",
+      "Tied 192 numbers in my final report to my workbook and found wrong ROIC figures, a sensitivity claim off by $7, a price gap on the wrong base, and free cash flow mislabelled as FCFF."
+    ],
+    fix: "Version 0.2 limits the gate and hand-off to the final project and aligns its ownership table with the shared rules."
+  },
   {
     when: "Oct 2026",
     skill: "dcf-valuation",
@@ -616,7 +629,7 @@ AUDIT.forEach(function (a) {
   tr.appendChild(td);
   rows.appendChild(tr);
 });
-sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["tests/dcf-valuation", "tests/dcf-valuation/README.md"], ["each skill's test log", "skills"]]);
+sourceLine(document.getElementById("source-record"), [["tests/source-pack", "tests/source-pack/README.md"], ["tests/forecast-bridge", "tests/forecast-bridge/README.md"], ["tests/capex-bridge", "tests/capex-bridge/README.md"], ["tests/dcf-valuation", "tests/dcf-valuation/README.md"], ["tests/company-analysis", "tests/company-analysis/README.md"], ["each skill's test log", "skills"]]);
 
 // ----- Modal -----
 const modal = document.getElementById("modal");

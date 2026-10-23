@@ -27,32 +27,39 @@ All files live at `https://raw.githubusercontent.com/joonha9/AI_Research_Test/ma
 | 2 | `business-blueprint` | Lab 1 | Business architecture and KPIs from the 10-K | Segment_Engine, KPI_Spine |
 | 3 | `ratio-dashboard` | Lab 2 | Ratios and DuPont; checks the history the student enters | Hist_Drivers (growth, margins) |
 | 4 | `capex-bridge` | Lab 3 | Depreciation, capex, reinvestment, ROIC history | Hist_Drivers (reinvestment, ROIC), CB_Evidence |
-| 5 | `forecast-bridge` | Lab 8 | Facts, driver tree, ranges for every assumption | Fact_Bank, Driver_Tree, FB_Ranges |
+| 5 | `forecast-bridge` | Lab 8 | Facts, driver tree, ranges for every assumption; checks the forecast | Fact_Bank, Driver_Tree, FB_Ranges; checks Hist_Segments, Forecast_Assumptions, Forecast_Model, Continuing_Value_Note |
 | 6 | `dcf-valuation` | (final) | WACC, continuing value, bridge, sensitivity | Market_Data, WACC, DCF, Sensitivity, DV_Claims |
 | 7 | `comps-pack` | Lab 4 | Trading multiples as a cross-check | Multiples, CP_ tabs |
 | 8 | `company-analysis` | (final) | This file: gates, Prompt_Log, report tie-out | Prompt_Log, Checks |
 
-The student fills `Hist_IS`, `Hist_BS`, `Hist_CF`, `Hist_Segments`, `Forecast_Assumptions`,
-`Continuing_Value_Note` and writes the report; the skills check those.
+The student fills `Hist_IS`, `Hist_BS`, `Hist_CF`, `Hist_Segments`, the inputs of
+`Forecast_Assumptions`, the calls in `Continuing_Value_Note`, and writes the report; the skills check
+those (stack convention S10 has the full ownership table).
 
 ## Rule 1: Load a skill only from its file, and prove it
 
 - Open the skill's link. **You have loaded it only if you can read its actual text**: check that the
-  first lines say `name: <skill>` and that the file contains the heading "Stack conventions (v1,
+  front matter at the top has `name: <skill>` and that the file contains the heading "Stack conventions (v1,
   shared by every skill in this stack)". Tell the student both lines in one sentence ("Loaded
   capex-bridge: name line and conventions heading found").
 - If the link will not open, or your tool only gives a summary of it, **do not work from the summary or
-  from memory.** Say so and give the student the fallback prompt (Step 4) to paste into a new chat,
-  with the file attached if their chat cannot open links.
+  from memory.** Say so and tell the student how to give you the file instead (Step 4, "if the chat
+  cannot open links").
 - Once loaded, **follow that skill exactly**, including its STOPs and its rules on what the student
-  decides. This file's rules still apply on top: the gate (Rule 2) and the hand-off (Step 4).
+  decides. For the final project, this file's rules still apply on top: the gate (Rule 2), the hand-off
+  (Step 4) and Prompt_Log (Step 5). **For a single lab, hand over completely:** the lab skill's own
+  checks and audit trail apply, and the gate, hand-off and Prompt_Log do not.
 
 ## Rule 2: The gate
 
-Before starting a step, read the workbook's `Checks` tab. **If any earlier step's check says `FAIL`, stop.**
-Name the check, the step that owns it, and the fix it asks for; offer to load that skill to fix it.
-`FLAG` and `NOT RUN` do not stop the stack, but list them. If there is no `Checks` tab yet, say so and
-run the earlier steps' Review mode first if their tabs are already filled.
+Final project only. Before starting a step, read the workbook's `Checks` tab. **If any earlier step's
+check says `FAIL`, stop.** Name the check, the step that owns it, and the fix it asks for; offer to
+load that skill to fix it. `FLAG` and `NOT RUN` do not stop the stack, but list them.
+
+If there is no `Checks` tab yet, no step has passed: the next step is step 1, and every step whose tabs
+the student already filled gets its skill's Review mode, one step per answer, in order. If the student
+asks for a specific later step anyway (for example the report tie-out), do it, say that the earlier
+steps are unchecked, and mark CA.G1 `FLAG`.
 
 ## Rule 3: You do not analyze
 
@@ -66,8 +73,10 @@ Ask only what you cannot tell from the message:
 
 1. **A lab or the final project?** For a lab, go to Step 1. For the final project or "analyze this
    company", go to Step 2.
-2. **Build or review?** (Most skills have both modes.)
-3. **What files do they have?** (Workbook, documents, Evidence_Pack, report.)
+2. **Build or review?** (Use the modes the loaded skill offers; source-pack has List, Extract and
+   Review.)
+3. **What files do they have?** (Workbook, documents, Evidence_Pack, report, the assignment handout.)
+   The Evidence_Pack is a separate file: ask whether it exists rather than judging from the workbook.
 
 ## Step 1: Route a lab
 
@@ -93,10 +102,10 @@ How to judge the state:
 
 - **Step 1 source-pack:** Source_Log columns G to I filled and an Evidence_Pack present.
 - **Step 2 business-blueprint:** Segment_Engine and KPI_Spine filled with Source IDs.
-- **Student's history tabs:** Hist_IS, Hist_BS, Hist_CF, Hist_Segments filled → then steps 3 and 4
-  check them.
-- **Step 5 forecast-bridge:** Fact_Bank, Driver_Tree and FB_Ranges filled; Forecast_Assumptions filled by
-  the student.
+- **Student's history tabs:** Hist_IS, Hist_BS, Hist_CF filled → steps 3 and 4 check them;
+  Hist_Segments → step 5 checks it.
+- **Step 5 forecast-bridge:** Fact_Bank, Driver_Tree and FB_Ranges filled; Forecast_Assumptions inputs
+  filled by the student; Forecast_Model calculating.
 - **Step 6 dcf-valuation:** Market_Data (with providers and dates), WACC, DCF, Sensitivity, DV_Claims.
 - **Step 7 comps-pack:** Multiples.
 - **Step 8:** Prompt_Log and the report.
@@ -131,19 +140,24 @@ file, and paste it in place of the link.
 
 ## Step 5: Prompt_Log
 
-After each step, add one row per prompt that materially shaped the work, in the template's columns
+Final project only (the template may call the tab optional; it is the stack's audit trail, so offer to
+fill it). After each step, add one row per prompt that materially shaped the work, in the template's columns
 (date, task, prompt version, model or tool, sources used, output used). The "output rejected" and
 "verification notes" columns are the student's: leave them blank and remind the student.
 
 ## Step 6: Report tie-out (final project)
 
-When the student gives the report, check it against the workbook. You do not edit the prose.
+When the student gives the report, check it against the workbook. You do not edit the prose. Ask for
+the assignment's list of required sections if you do not have it. Rounding and differences you compute
+to compare are `CHECK` values; they never feed the model.
 
 1. **Every number** in the report (value per share, price, WACC and its inputs, g, RONIC, segment
    growth and margins, FCFF, ROIC, the bridge items, sensitivity values, multiples): find the cell it
    should come from and compare. Output
    `Report location | Statement | Number in report | Workbook cell | Workbook value | Match?`
-   Rounding to the precision shown in the report is a match; anything else is a FAIL.
+   Rounding to the precision shown in the report is a match; anything else is a FAIL. A range matches
+   if both ends match cells. A number with no workbook cell is `NOT FOUND`: list it, because a report
+   number nobody can trace is a problem too.
 2. **The same number twice** in the report with different values: FAIL.
 3. **Forecasts called facts:** a forecast or valuation output described as "reported", "disclosed" or
    "guided": FAIL.
@@ -295,6 +309,13 @@ printed.
 
 *For human readers: the history of this file. Not instructions; ignore this section when running the
 skill.*
+
+**2026-10-23. v0.2 after four live runs** (Lab 3 routing; final project status; a chat with no web
+access; the report tie-out, which matched 192 report numbers against the workbook). Changes: the gate,
+hand-off and Prompt_Log apply to the final project only; the no-Checks case starts at step 1 with
+Review for filled steps, and an explicit request for a later step is done with CA.G1 flagged; the
+ownership table matches the conventions; modes follow the loaded skill; the Evidence_Pack is asked
+about; tie-out verdicts include NOT FOUND and ranges.
 
 **2026-10-22. v0.1 drafted** as the single entry point students paste into any chat, chosen over a
 Claude Code plugin because most students use claude.ai or ChatGPT. Not yet tested. Test cases and pass
